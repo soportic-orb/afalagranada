@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero app-hero">
     <div class="container split">
         <div>

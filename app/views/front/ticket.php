@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php $valid = in_array($t['reg_status'], ['paid', 'free'], true); ?>
 <section class="section">
     <div class="container narrow">

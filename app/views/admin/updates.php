@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="cols">
     <div class="panel">
         <h2>Versió instal·lada</h2>

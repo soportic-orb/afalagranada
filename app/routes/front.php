@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /** @var Router $router */
 
 function front_page(string $slug): void
@@ -97,7 +99,7 @@ $router->get('/noticies/{slug}', function (string $slug) {
 });
 
 // ---------------------------------------------------------------- App AFA
-$router->get('/app', function () {
+$router->get('/aplicacio', function () {
     $features = db()->all("SELECT * FROM blocks WHERE group_key = 'app' AND published = 1 ORDER BY sort_order, id");
     view('front/app', ['title' => 'L\'app de l\'AFA', 'features' => $features], 'front/layout');
 });

@@ -85,6 +85,7 @@ if ($ok && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 @mkdir($base . '/storage/' . $d, 0755, true);
             }
             // Inicialitza l'aplicació amb la nova configuració (sense escriure encara el fitxer)
+            define('AFA_ENTRY', true);
             require_once $base . '/app/bootstrap.php';
             $GLOBALS['config'] = $newConfig;
             Migrator::run(db());

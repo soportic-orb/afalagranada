@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use chillerlan\QRCode\Output\QROutputInterface;

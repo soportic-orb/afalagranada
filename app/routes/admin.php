@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /** @var Router $router */
 
 function admin_view(string $template, array $data = []): void

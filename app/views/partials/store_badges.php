@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="store-badges">
     <?php if ($u = setting('app_ios_url')): ?>
         <a class="store-badge" href="<?= e($u) ?>" target="_blank" rel="noopener">

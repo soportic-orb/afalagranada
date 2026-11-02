@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $type = $f['type'] ?? 'text';
 $name = $f['name'] ?? '';

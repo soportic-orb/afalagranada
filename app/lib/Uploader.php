@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 final class Uploader
 {
     private const TYPES = [

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /**
  * Client mínim de l'API de Stripe (sense SDK, per a servidors compartits).
  * Utilitza Stripe Checkout (pàgina de pagament allotjada per Stripe) i webhooks.

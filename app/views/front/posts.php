@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero small"><div class="container"><h1>Notícies</h1><p class="lead">El que passa a l'AFA i a l'escola.</p></div></section>
 <section class="section">
     <div class="container">

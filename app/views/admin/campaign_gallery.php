@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <p><a href="<?= url('admin/r/campaigns/' . $c['id']) ?>">← Tornar a la campanya</a></p>
 <div class="panel">
     <h2>Afegir imatges</h2>

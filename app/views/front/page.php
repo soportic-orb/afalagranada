@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero<?= $page['image'] ? ' with-image' : '' ?>"<?= $page['image'] ? ' style="--hero-img:url(\'' . e(upload_url($page['image'])) . '\')"' : '' ?>>
     <div class="container">
         <h1><?= e($page['title']) ?></h1>

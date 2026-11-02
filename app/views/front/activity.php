@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $max = max(1, (int)$a['max_per_registration']);
 if ($state['left'] !== null) { $max = max(1, min($max, $state['left'])); }

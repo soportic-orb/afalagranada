@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <!doctype html>
 <html lang="ca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title><?= e($subject) ?></title></head>
 <body style="margin:0;padding:0;background:#f4f5f5;font-family:Arial,Helvetica,sans-serif;color:#1d1d1b;">

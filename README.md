@@ -26,6 +26,27 @@ La proposta funcional completa és a [PROPOSTA.md](PROPOSTA.md).
 
 Si el hosting no té `mod_rewrite`, cal demanar que l'activin, perquè les URL depenen de les regles de reescriptura.
 
+### Servidors amb nginx (Plesk, etc.)
+
+Molts hostings fan servir **nginx**, que serveix els fitxers estàtics directament i **no llegeix `.htaccess`**. La web ja ho té en compte:
+
+- Els fitxers PHP interns no fan res si s'obren directament.
+- Les dades privades (registres i còpies de seguretat) es desen en una subcarpeta de `storage/` amb un nom impossible d'endevinar. Si el hosting permet escriure fora de l'arrel web, es pot indicar una altra ruta amb `'storage_path' => '/ruta/privada'` a `config.php`.
+
+Tot i així, es recomana afegir aquestes directives d'nginx. A Plesk van a *Configuració d'Apache i nginx → Directives addicionals d'nginx*:
+
+```nginx
+location ~ ^/(app|storage|vendor)/ { deny all; return 404; }
+location ~ ^/(config\.php|config\.example\.php|composer\.(json|lock)|VERSION|server\.php|README\.md|PROPOSTA\.md)$ { deny all; return 404; }
+location ^~ /uploads/ { location ~ \.php$ { deny all; } }
+```
+
+Si les URL amigables no funcionen amb nginx sol (sense Apache), cal afegir-hi també:
+
+```nginx
+location / { try_files $uri $uri/ /index.php?$query_string; }
+```
+
 ### Requisits PHP
 
 Extensions `pdo_mysql`, `mbstring`, `curl`, `zip`, `gd`, `dom` i `fileinfo` (venen actives a la majoria de hostings). L'instal·lador les comprova.

@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <h2 style="margin:0 0 12px;color:#078838;">Moltes gràcies<?= $d['donor_name'] ? ', ' . e($d['donor_name']) : '' ?>!</h2>
 <p>Hem rebut correctament la teva aportació a la campanya <strong><?= e($d['campaign_title']) ?></strong>.</p>
 <table role="presentation" cellpadding="8" cellspacing="0" style="background:#f4f5f5;border-radius:10px;margin:16px 0;width:100%;">

@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero small center">
     <div class="container narrow">
         <div class="big-icon"><?= icon('heart', 'icon icon-xl') ?></div>

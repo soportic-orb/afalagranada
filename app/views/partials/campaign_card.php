@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php $stats = campaign_stats($c); ?>
 <article class="card campaign-card">
     <a href="<?= url('campanyes/' . $c['slug']) ?>" class="card-media">

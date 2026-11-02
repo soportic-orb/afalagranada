@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php foreach ($warnings as $w): ?><div class="alert alert-warn"><?= $w ?></div><?php endforeach; ?>
 <div class="stats">
     <div class="stat"><span>Recaptat en campanyes</span><strong><?= e(money($stats['donations_total'])) ?></strong><small><?= (int)$stats['donations_count'] ?> donacions</small></div>

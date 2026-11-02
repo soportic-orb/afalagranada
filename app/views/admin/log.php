@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="panel flush">
 <table class="table list">
     <thead><tr><th>Data</th><th>Usuari</th><th>Acció</th><th>Detalls</th></tr></thead>

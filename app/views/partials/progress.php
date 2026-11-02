@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= (int)$stats['percent'] ?>" aria-label="Percentatge de la fita assolit">
     <div class="progress-bar" style="width: <?= (int)$stats['percent'] ?>%"></div>
 </div>
