@@ -144,6 +144,9 @@ return [
             ['name' => 'title', 'label' => 'Activitat'],
             ['name' => 'starts_at', 'label' => 'Data', 'type' => 'datetime'],
             ['name' => 'seats', 'label' => 'Inscrits', 'render' => function ($r) {
+                if (!empty($r['external_registration'])) {
+                    return '<span class="badge badge-info" title="' . e($r['external_url']) . '">Web externa ↗</span>';
+                }
                 $n = (int)db()->value("SELECT COALESCE(SUM(quantity),0) FROM registrations WHERE activity_id = ? AND status IN ('paid','free')", [$r['id']]);
                 return $n . ($r['capacity'] ? ' / ' . (int)$r['capacity'] : '');
             }],
@@ -153,6 +156,15 @@ return [
         'row_actions' => [
             ['label' => 'Inscripcions', 'url' => fn($r) => url('admin/activities/' . $r['id'] . '/registrations')],
         ],
+        'validate' => function (array $d) {
+            if (!empty($d['external_registration'])) {
+                $u = (string)($d['external_url'] ?? '');
+                if (!preg_match('#^https?://#i', $u) || !filter_var($u, FILTER_VALIDATE_URL)) {
+                    return ['Indica una URL vàlida (que comenci per https://) per a les inscripcions en web externa.'];
+                }
+            }
+            return [];
+        },
         'fields' => [
             ['name' => 'title', 'label' => 'Títol de l\'activitat', 'required' => true, 'maxlength' => 200],
             ['name' => 'slug', 'label' => 'URL (slug)', 'type' => 'slug', 'from' => 'title'],
@@ -163,13 +175,16 @@ return [
             ['name' => 'status', 'label' => 'Estat', 'type' => 'select', 'options' => ['draft' => 'Esborrany', 'published' => 'Publicada (inscripcions obertes)', 'closed' => 'Tancada (visible, sense inscripcions)', 'cancelled' => 'Cancel·lada (oculta)'], 'side' => true],
             ['name' => 'starts_at', 'label' => 'Inici', 'type' => 'datetime', 'side' => true],
             ['name' => 'ends_at', 'label' => 'Final', 'type' => 'datetime', 'side' => true],
-            ['name' => 'capacity', 'label' => 'Places totals', 'type' => 'number', 'help' => '0 = sense límit', 'side' => true],
-            ['name' => 'max_per_registration', 'label' => 'Màx. participants per inscripció', 'type' => 'number', 'default' => 4, 'side' => true],
-            ['name' => 'price_cents', 'label' => 'Preu per participant (€)', 'type' => 'money', 'help' => '0 = gratuïta', 'side' => true],
+            ['name' => 'external_registration', 'label' => 'Inscripcions en web externa', 'type' => 'checkbox', 'side' => true, 'toggles' => true],
+            ['name' => 'external_url', 'label' => 'URL de la web d\'inscripcions', 'type' => 'url', 'side' => true, 'shown_when' => 'external_registration',
+                'help' => 'El botó «Inscriu-t\'hi» de la fitxa portarà a aquesta adreça (s\'obre en una pestanya nova).'],
+            ['name' => 'capacity', 'label' => 'Places totals', 'type' => 'number', 'help' => '0 = sense límit', 'side' => true, 'disabled_when' => 'external_registration'],
+            ['name' => 'max_per_registration', 'label' => 'Màx. participants per inscripció', 'type' => 'number', 'default' => 4, 'side' => true, 'disabled_when' => 'external_registration'],
+            ['name' => 'price_cents', 'label' => 'Preu per participant (€)', 'type' => 'money', 'help' => '0 = gratuïta. Amb inscripcions externes es mostra només a títol informatiu.', 'side' => true],
             ['name' => 'member_price_cents', 'label' => 'Preu socis/es AFA (€)', 'type' => 'money', 'nullable' => true, 'help' => 'Deixa en blanc si no hi ha preu especial', 'side' => true],
             ['name' => 'registration_opens', 'label' => 'Obertura inscripcions', 'type' => 'datetime', 'side' => true],
             ['name' => 'registration_closes', 'label' => 'Tancament inscripcions', 'type' => 'datetime', 'side' => true],
-            ['name' => 'ask_course', 'label' => 'Demanar el curs de l\'infant', 'type' => 'checkbox', 'default' => 1, 'side' => true],
+            ['name' => 'ask_course', 'label' => 'Demanar el curs de l\'infant', 'type' => 'checkbox', 'default' => 1, 'side' => true, 'disabled_when' => 'external_registration'],
         ],
     ],
 

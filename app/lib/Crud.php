@@ -54,6 +54,10 @@ final class Crud
             if (in_array($type, ['heading', 'info'], true)) {
                 continue;
             }
+            // Camps desactivats per una altra opció (p. ex. inscripcions externes): es conserva el valor desat
+            if (isset($f['disabled_when']) && !empty($_POST[$f['disabled_when']])) {
+                continue;
+            }
             $raw = $_POST[$name] ?? null;
             switch ($type) {
                 case 'checkbox':

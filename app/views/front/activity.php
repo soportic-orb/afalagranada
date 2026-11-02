@@ -29,6 +29,11 @@ if ($state['left'] !== null) { $max = max(1, min($max, $state['left'])); }
                 <h2 class="h3">Inscripció</h2>
                 <?php if (!$state['open']): ?>
                     <div class="alert alert-info"><?= e($state['reason'] ?: 'Inscripcions no disponibles.') ?></div>
+                <?php elseif ($state['external']): ?>
+                    <?php $host = preg_replace('#^www\.#', '', (string)parse_url($state['external_url'], PHP_URL_HOST)); ?>
+                    <p>Les inscripcions d'aquesta activitat es fan a la web de l'organització.</p>
+                    <a class="btn btn-accent btn-block btn-lg" href="<?= e($state['external_url']) ?>" target="_blank" rel="noopener">Inscriu-t'hi a <?= e($host) ?> ↗</a>
+                    <p class="secure">S'obrirà en una pestanya nova.</p>
                 <?php else: ?>
                     <?php if (input('cancel')): ?><div class="alert alert-info">Has cancel·lat el pagament. La inscripció no s'ha completat.</div><?php endif; ?>
                     <form method="post" action="<?= url('activitats/' . $a['slug'] . '/inscripcio') ?>" class="form" id="reg-form"

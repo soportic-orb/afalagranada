@@ -9,9 +9,9 @@ if ($type === 'heading'): ?>
 <?php elseif ($type === 'info'): ?>
     <p class="help-box"><?= $f['label'] ?></p>
 <?php elseif ($type === 'checkbox'): ?>
-    <label class="check"><input type="checkbox" name="<?= e($name) ?>" value="1" <?= $value ? 'checked' : '' ?>> <?= e($f['label']) ?></label>
+    <label class="check<?= !empty($f['toggles']) ? ' check-toggle' : '' ?>"<?= isset($f['disabled_when']) ? ' data-disabled-when="f-' . e($f['disabled_when']) . '"' : '' ?>><input type="checkbox" id="<?= e($id) ?>" name="<?= e($name) ?>" value="1" <?= $value ? 'checked' : '' ?>> <?= e($f['label']) ?></label>
 <?php else: ?>
-<div class="field">
+<div class="field"<?= isset($f['disabled_when']) ? ' data-disabled-when="f-' . e($f['disabled_when']) . '"' : '' ?><?= isset($f['shown_when']) ? ' data-shown-when="f-' . e($f['shown_when']) . '"' : '' ?>>
     <label for="<?= e($id) ?>"><?= e($f['label']) ?><?= $req ? ' *' : '' ?></label>
     <?php switch ($type):
         case 'textarea': ?>

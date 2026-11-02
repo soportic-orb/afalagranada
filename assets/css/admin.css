@@ -222,3 +222,8 @@ ol.log li { margin-bottom: .3rem; }
 .timeline-admin li.ev-refund { border-left-color: var(--red); }
 .timeline-admin li.ev-note { border-left-color: var(--yellow); background: #fffdf0; }
 .timeline-admin time { color: var(--muted); font-size: .8rem; margin-right: .4rem; }
+
+/* Camps desactivats per una altra opció */
+.is-disabled { opacity: .45; }
+.is-disabled label { text-decoration: line-through; }
+.check-toggle { background: #f1f8f3; border: 1px solid #cfe7d8; border-radius: 8px; padding: .55rem .7rem; }

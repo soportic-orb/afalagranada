@@ -51,8 +51,10 @@ function campaign_is_open(array $c): bool
 function activity_state(array $a): array
 {
     $now = date('Y-m-d H:i:s');
-    $taken = Tickets::seatsTaken((int)$a['id']);
-    $cap = (int)$a['capacity'];
+    $external = !empty($a['external_registration']) && !empty($a['external_url']);
+    // Amb inscripcions externes les places les gestiona l'altra web
+    $taken = $external ? 0 : Tickets::seatsTaken((int)$a['id']);
+    $cap = $external ? 0 : (int)$a['capacity'];
     $left = $cap > 0 ? max(0, $cap - $taken) : null;
     $open = $a['status'] === 'published';
     $reason = '';
@@ -71,7 +73,7 @@ function activity_state(array $a): array
     } elseif ($a['status'] !== 'published') {
         $reason = 'Inscripcions no disponibles.';
     }
-    return ['taken' => $taken, 'left' => $left, 'open' => $open, 'reason' => $reason];
+    return ['taken' => $taken, 'left' => $left, 'open' => $open, 'reason' => $reason, 'external' => $external, 'external_url' => $external ? $a['external_url'] : null];
 }
 
 // ---------------------------------------------------------------- Portada
@@ -220,6 +222,9 @@ $router->post('/activitats/{slug}/inscripcio', function (string $slug) {
     $a = db()->one("SELECT * FROM activities WHERE slug = ? AND status = 'published'", [$slug]);
     if (!$a) {
         abort(404);
+    }
+    if (!empty($a['external_registration']) && !empty($a['external_url'])) {
+        redirect($a['external_url']); // inscripcions gestionades en una web externa
     }
     remember_input();
     $back = 'activitats/' . $slug . '#inscripcio';
