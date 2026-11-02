@@ -3,7 +3,7 @@
 $max = max(1, (int)$a['max_per_registration']);
 if ($state['left'] !== null) { $max = max(1, min($max, $state['left'])); }
 ?>
-<section class="page-hero small">
+<section class="page-hero small<?= hero_bg('activities') ?>">
     <div class="container">
         <p class="eyebrow"><a href="<?= url('activitats') ?>">← Activitats</a></p>
         <h1><?= e($a['title']) ?></h1>

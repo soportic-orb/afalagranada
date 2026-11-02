@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small center">
+<section class="page-hero small center<?= hero_bg('activities') ?>">
     <div class="container narrow">
         <?php if (in_array($reg['status'], ['paid', 'free'], true)): ?>
             <div class="big-icon ok"><?= icon('check', 'icon icon-xl') ?></div>

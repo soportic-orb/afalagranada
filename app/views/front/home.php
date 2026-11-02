@@ -117,7 +117,7 @@
             <?php partial('store_badges'); ?>
             <p><a class="link-arrow light" href="<?= url('aplicacio') ?>">Més informació sobre l'app →</a></p>
         </div>
-        <div class="app-phone" aria-hidden="true"><img src="<?= setting('app_image') ? e(upload_url(setting('app_image'))) : asset('img/phone.svg') ?>" alt=""></div>
+        <?php partial('app_screens', ['decorative' => true]); ?>
     </div>
 </section>
 

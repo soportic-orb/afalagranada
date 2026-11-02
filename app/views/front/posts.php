@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small"><div class="container"><h1>Notícies</h1><p class="lead">El que passa a l'AFA i a l'escola.</p></div></section>
+<section class="page-hero small<?= hero_bg('news') ?>"><div class="container"><h1>Notícies</h1><p class="lead">El que passa a l'AFA i a l'escola.</p></div></section>
 <section class="section">
     <div class="container">
         <?php if (!$posts): ?><p class="empty">Encara no hi ha notícies publicades.</p><?php endif; ?>

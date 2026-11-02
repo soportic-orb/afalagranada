@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small">
+<section class="page-hero small<?= hero_bg('campaigns') ?>">
     <div class="container">
         <p class="eyebrow">Micromecenatge</p>
         <h1>Campanyes</h1>
