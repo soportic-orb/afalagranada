@@ -69,7 +69,7 @@ p { margin: 0 0 1em; }
 @media (max-width: 520px) { .brand-logo { height: 42px; } }
 .nav-toggle { display: none; background: none; border: 0; width: 44px; height: 44px; padding: 10px; cursor: pointer; }
 .nav-toggle span { display: block; height: 3px; background: var(--ink); border-radius: 3px; margin: 5px 0; transition: .2s; }
-@media (max-width: 960px) {
+@media (max-width: 1080px) {
     .nav-toggle { display: block; }
     .nav { position: fixed; inset: 83px 0 auto 0; background: var(--bg); flex-direction: column; align-items: stretch; padding: 1rem 20px 1.5rem; border-bottom: 1px solid var(--line); box-shadow: var(--shadow); transform: translateY(-10px); opacity: 0; visibility: hidden; transition: transform .2s, opacity .2s, visibility .2s; max-height: calc(100vh - 83px); overflow: auto; }
     .nav.open { transform: none; opacity: 1; visibility: visible; }
@@ -324,3 +324,23 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--g
     .site-header, .site-footer, .staff-box, .nav-toggle { display: none !important; }
     body { background: #fff; }
 }
+
+/* Contacte */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+@media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+.contact-layout { align-items: start; }
+.contact-info a { color: var(--ink); text-decoration: none; font-weight: 600; }
+.contact-info a:hover { color: var(--green); }
+.contact-app { background: var(--green-soft); box-shadow: none; }
+
+/* Missatge enviat */
+.sent-section { position: relative; overflow: hidden; min-height: 62vh; display: grid; place-items: center; background: var(--seeds), linear-gradient(160deg, var(--green-soft), var(--yellow-soft)); }
+.sent-box { position: relative; z-index: 2; }
+.sent-emoji { font-size: clamp(6rem, 18vw, 9.5rem); line-height: 1; margin-bottom: 1rem; display: inline-block; animation: sent-pop .7s cubic-bezier(.2, 1.6, .4, 1) both; transform-origin: 50% 80%; }
+.sent-box h1 { animation: sent-up .6s .15s ease-out both; }
+.sent-box .lead { margin-left: auto; margin-right: auto; font-size: 1.3rem; animation: sent-up .6s .25s ease-out both; }
+.sent-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 1.8rem; animation: sent-up .6s .35s ease-out both; }
+.confetti-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+@keyframes sent-pop { 0% { transform: scale(0) rotate(-25deg); opacity: 0; } 60% { transform: scale(1.15) rotate(8deg); opacity: 1; } 100% { transform: scale(1) rotate(0); } }
+@keyframes sent-up { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sent-emoji, .sent-box h1, .sent-box .lead, .sent-actions { animation: none; } }

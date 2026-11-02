@@ -14,6 +14,7 @@ $nav = [
     ['admin/r/campaigns', 'Campanyes', 'campaigns', 'heart'],
     ['admin/r/activities', 'Activitats', 'activities', 'calendar'],
     ['admin/checkin', 'Control d\'accés (QR)', 'checkin', 'check'],
+    ['admin/messages', 'Missatges de contacte', 'messages', 'mail'],
     ['_h', 'Sistema', 'settings'],
     ['admin/settings', 'Configuració', 'settings', 'shield'],
     ['admin/r/users', 'Usuaris', 'users', 'users'],
@@ -44,7 +45,7 @@ $cur = trim(current_path(), '/');
                 $active = $item[0] === 'admin' ? $cur === 'admin' : str_starts_with($cur, $item[0]) ||
                     ($item[0] === 'admin/r/campaigns' && str_starts_with($cur, 'admin/campaigns')) ||
                     ($item[0] === 'admin/r/activities' && str_starts_with($cur, 'admin/activities')); ?>
-                <a href="<?= url($item[0]) ?>" class="<?= $active ? 'active' : '' ?>"><?= icon($item[3], 'icon icon-sm') ?> <?= e($item[1]) ?></a>
+                <a href="<?= url($item[0]) ?>" class="<?= $active ? 'active' : '' ?>"><?= icon($item[3], 'icon icon-sm') ?> <?= e($item[1]) ?><?php if ($item[0] === 'admin/messages' && ($nUnread = unread_messages())): ?><span class="nav-count"><?= $nUnread ?></span><?php endif; ?></a>
             <?php endif; endforeach; ?>
     </nav>
     <div class="sb-foot">

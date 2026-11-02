@@ -195,3 +195,13 @@ ol.log li { margin-bottom: .3rem; }
     .content { padding: 0; }
     .panel { border: 0; }
 }
+
+/* Missatges */
+.table tr.unread td { background: #fbfdf9; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-right: .45rem; vertical-align: middle; }
+.dl { display: grid; grid-template-columns: 160px 1fr; gap: .45rem 1rem; margin: 0 0 1.2rem; }
+.dl dt { color: var(--muted); font-size: .88rem; }
+.dl dd { margin: 0; }
+.message-body { background: #f7f8f7; border-left: 4px solid var(--yellow); padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; line-height: 1.65; white-space: normal; }
+.nav-count { margin-left: auto; background: var(--red); color: #fff; font-size: .72rem; font-weight: 700; border-radius: 999px; padding: .05rem .45rem; }
+@media (max-width: 600px) { .dl { grid-template-columns: 1fr; } }
