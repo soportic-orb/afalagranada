@@ -141,7 +141,15 @@ input:focus, select:focus, textarea:focus { outline: 2px solid rgba(31,111,92,.2
 
 /* Quill */
 .editor { background: #fff; }
-.editor .ql-editor { min-height: 260px; font-size: 15px; line-height: 1.6; }
+.editor .ql-editor { min-height: 260px; font-family: "Nunito", system-ui, sans-serif; font-size: 17px; line-height: 1.65; color: #1d1d1b; }
+/* Mateixos espais que la web (classe .prose a site.css) */
+.editor .ql-editor h2, .editor .ql-editor h3, .editor .ql-editor h4 { font-family: "Outfit", "Nunito", sans-serif; font-weight: 700; margin: .9em 0 .35em; line-height: 1.15; }
+.editor .ql-editor h2 { font-size: 1.75em; } .editor .ql-editor h3 { font-size: 1.3em; }
+.editor .ql-editor > :first-child { margin-top: 0; }
+.editor .ql-editor blockquote { border-left: 4px solid var(--yellow); margin: .5em 0; padding: .4rem 1.1rem; background: #f4f5f5; }
+.editor .ql-editor img { border-radius: 12px; margin: .5em 0; display: inline-block; }
+.editor .ql-editor a { color: var(--green); }
+.editor-hint { font-size: .8rem; color: var(--muted); margin-top: .3rem; }
 .editor.small .ql-editor { min-height: 110px; }
 .ql-toolbar.ql-snow { border-radius: 8px 8px 0 0; border-color: #cfd6d4; background: #fafbfa; }
 .ql-container.ql-snow { border-radius: 0 0 8px 8px; border-color: #cfd6d4; }

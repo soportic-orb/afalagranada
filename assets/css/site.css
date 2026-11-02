@@ -202,20 +202,27 @@ p { margin: 0 0 1em; }
 @media (max-width: 960px) { .layout-aside { grid-template-columns: 1fr; } .sticky { position: static; } }
 
 /* Prose */
-.prose { font-size: 1.06rem; }
-.prose h2 { margin-top: 1.6em; }
-.prose h3 { margin-top: 1.4em; }
-.prose img { border-radius: var(--radius); margin: 1.5rem 0; }
-.prose blockquote { border-left: 4px solid var(--yellow); margin: 1.5rem 0; padding: .5rem 1.2rem; background: var(--cream); border-radius: 0 12px 12px 0; }
-.prose ul, .prose ol { padding-left: 1.3rem; }
-.prose li { margin-bottom: .4rem; }
-.prose iframe { width: 100%; aspect-ratio: 16/9; height: auto; border: 0; border-radius: var(--radius); }
+/* Contingut de l'editor visual (Quill): mateix model que l'editor del panell.
+   Cada línia és un paràgraf sense marge i una línia en blanc és un paràgraf buit (<p><br></p>),
+   de manera que el que es veu a l'editor és exactament el que es veu a la web. */
+.prose { font-size: 1.06rem; line-height: 1.65; overflow-wrap: anywhere; }
+.prose p, .prose ul, .prose ol, .prose pre { margin: 0; }
+.prose h2, .prose h3, .prose h4 { margin: .9em 0 .35em; }
+.prose > :first-child { margin-top: 0; }
+.prose img { border-radius: var(--radius); margin: .5em 0; display: inline-block; }
+.prose blockquote { border-left: 4px solid var(--yellow); margin: .5em 0; padding: .4rem 1.1rem; background: var(--cream); border-radius: 0 12px 12px 0; }
+.prose ul, .prose ol { padding-left: 1.5em; }
+.prose li { margin: 0; }
+.prose li[data-list="bullet"] { list-style-type: disc; }
+.prose li[data-list="ordered"] { list-style-type: decimal; }
+.prose .ql-indent-1 { padding-left: 3em; } .prose .ql-indent-2 { padding-left: 6em; } .prose .ql-indent-3 { padding-left: 9em; }
+.prose li.ql-indent-1 { margin-left: 1.5em; padding-left: 0; } .prose li.ql-indent-2 { margin-left: 3em; padding-left: 0; }
+.prose iframe { width: 100%; aspect-ratio: 16/9; height: auto; border: 0; border-radius: var(--radius); margin: .5em 0; }
 .prose .ql-align-center { text-align: center; }
 .prose .ql-align-right { text-align: right; }
 .prose .ql-align-justify { text-align: justify; }
 .prose .ql-size-large { font-size: 1.3em; }
 .prose .ql-size-small { font-size: .85em; }
-.prose li[data-list="bullet"] { list-style-type: disc; }
 
 /* Gallery */
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .8rem; margin-bottom: 2rem; }

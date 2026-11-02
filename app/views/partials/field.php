@@ -19,6 +19,7 @@ if ($type === 'heading'): ?>
         <?php break; case 'html': ?>
             <div class="editor <?= !empty($f['small']) ? 'small' : '' ?>" data-target="<?= e($id) ?>"></div>
             <textarea id="<?= e($id) ?>" name="<?= e($name) ?>" class="editor-source" hidden><?= e($value) ?></textarea>
+            <?php if (empty($f['small'])): ?><p class="editor-hint">Cada salt de línia es mostra igual a la web. Per separar paràgrafs, deixa una línia en blanc.</p><?php endif; ?>
         <?php break; case 'image': ?>
             <?php if ($value): ?><div class="img-preview"><img src="<?= e(upload_url($value)) ?>" alt=""><label class="check small"><input type="checkbox" name="<?= e($name) ?>__remove" value="1"> Treure la imatge</label></div><?php endif; ?>
             <input type="file" id="<?= e($id) ?>" name="<?= e($name) ?>" accept="image/jpeg,image/png,image/webp,image/gif">

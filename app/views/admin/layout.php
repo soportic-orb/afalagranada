@@ -34,6 +34,8 @@ $cur = trim(current_path(), '/');
     <meta name="robots" content="noindex">
     <title><?= e($title ?? 'Administració') ?> · Gestió AFA</title>
     <link rel="icon" href="<?= asset('img/favicon.png') ?>" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/admin.css') ?>">
 </head>
