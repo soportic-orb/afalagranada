@@ -20,11 +20,13 @@ $logo = setting('logo', '');
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e(strip_to_text($desc, 200)) ?>">
     <meta property="og:type" content="website">
-    <?php if (!empty($ogImage)): ?><meta property="og:image" content="<?= e($ogImage) ?>"><?php endif; ?>
-    <link rel="icon" href="<?= asset('img/favicon.svg') ?>" type="image/svg+xml">
+    <meta property="og:image" content="<?= e($ogImage ?? abs_url('assets/img/logo-afa@2x.png')) ?>">
+    <link rel="icon" href="<?= asset('img/favicon.png') ?>" type="image/png">
+    <link rel="apple-touch-icon" href="<?= asset('img/apple-touch-icon.png') ?>">
+    <meta name="theme-color" content="#078838">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
 </head>
 <body>
@@ -33,11 +35,10 @@ $logo = setting('logo', '');
     <div class="container header-inner">
         <a class="brand" href="<?= url('/') ?>">
             <?php if ($logo): ?>
-                <img src="<?= e(upload_url($logo)) ?>" alt="<?= e($siteName) ?>" class="brand-logo">
+                <img src="<?= e(upload_url($logo)) ?>" alt="<?= e($siteName) ?>" class="brand-logo custom">
             <?php else: ?>
-                <img src="<?= asset('img/logo.svg') ?>" alt="" class="brand-logo" width="44" height="44">
+                <img src="<?= asset('img/logo-afa.png') ?>" srcset="<?= asset('img/logo-afa.png') ?> 1x, <?= asset('img/logo-afa@2x.png') ?> 2x" alt="AFA Jacint Verdaguer · La Granada" class="brand-logo" width="221" height="60">
             <?php endif; ?>
-            <span class="brand-text"><strong>AFA</strong> Jacint Verdaguer<small><?= e($tagline) ?></small></span>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Menú">
             <span></span><span></span><span></span>
@@ -65,10 +66,11 @@ $logo = setting('logo', '');
     <?= $content ?>
 </main>
 
+<div class="tricolor" aria-hidden="true"></div>
 <footer class="site-footer">
     <div class="container footer-grid">
         <div>
-            <div class="footer-brand"><?= e($siteName) ?></div>
+            <img class="footer-logo" src="<?= $logo ? e(upload_url($logo)) : asset('img/logo-afa.png') ?>" alt="<?= e($siteName) ?>" loading="lazy">
             <p><?= e(setting('contact_address', 'Escola Jacint Verdaguer, La Granada (Alt Penedès)')) ?></p>
             <?php if ($m = setting('contact_email')): ?><p><a href="mailto:<?= e($m) ?>"><?= e($m) ?></a></p><?php endif; ?>
             <?php if ($p = setting('contact_phone')): ?><p><a href="tel:<?= e(preg_replace('/\s+/', '', $p)) ?>"><?= e($p) ?></a></p><?php endif; ?>

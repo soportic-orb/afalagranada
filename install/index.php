@@ -113,11 +113,11 @@ if ($ok && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
 <title>Instal·lació · Web AFA</title>
 <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f1ea;color:#1d2b2a;margin:0;padding:2rem 1rem}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f5;color:#1d1d1b;margin:0;padding:2rem 1rem}
     .box{max-width:640px;margin:0 auto;background:#fff;border-radius:16px;padding:2rem;box-shadow:0 10px 30px rgba(0,0,0,.06)}
-    h1{margin-top:0;color:#1f6f5c} h2{font-size:1.1rem;margin:1.6rem 0 .6rem;border-bottom:1px solid #eee;padding-bottom:.3rem}
+    h1{margin-top:0;color:#078838} h2{font-size:1.1rem;margin:1.6rem 0 .6rem;border-bottom:1px solid #eee;padding-bottom:.3rem}
     label{display:block;margin:.6rem 0;font-weight:600;font-size:.92rem} input{display:block;width:100%;box-sizing:border-box;padding:.65rem .8rem;border:1px solid #cfd8d6;border-radius:8px;font-size:1rem;margin-top:.25rem}
-    .row{display:grid;grid-template-columns:2fr 1fr;gap:1rem} button,.btn{background:#1f6f5c;color:#fff;border:0;padding:.85rem 1.4rem;border-radius:999px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin-top:1rem}
+    .row{display:grid;grid-template-columns:2fr 1fr;gap:1rem} button,.btn{background:#078838;color:#fff;border:0;padding:.85rem 1.4rem;border-radius:999px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin-top:1rem}
     ul.checks{list-style:none;padding:0} ul.checks li{padding:.25rem 0} .ok{color:#1a7f37}.ko{color:#c62828}
     .err{background:#fdecea;color:#8a1c1c;padding:.8rem 1rem;border-radius:8px;margin:.5rem 0} .muted{color:#6b7775;font-size:.88rem}
 </style>

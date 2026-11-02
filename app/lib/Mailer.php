@@ -51,6 +51,10 @@ final class Mailer
             $m->isHTML(true);
             $m->Body = render('emails/layout', ['subject' => $subject, 'body' => $bodyHtml]);
             $m->AltBody = trim(html_entity_decode(strip_tags(str_replace(['<br>', '</p>', '</h2>', '</tr>'], "\n", $bodyHtml))));
+            $logo = BASE_PATH . '/assets/img/logo-email.png';
+            if (is_file($logo)) {
+                $m->addEmbeddedImage($logo, 'afalogo', 'logo-afa.png', PHPMailer::ENCODING_BASE64, 'image/png');
+            }
             foreach ($embeds as [$cid, $data, $name]) {
                 $m->addStringEmbeddedImage($data, $cid, $name, PHPMailer::ENCODING_BASE64, 'image/png');
             }

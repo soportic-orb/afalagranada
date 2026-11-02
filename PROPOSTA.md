@@ -86,7 +86,25 @@ Els serveis de l'AFA (extraescolars, acollida, menjador, llibres i material, act
 - Disseny propi, adaptat al mòbil, accessible (contrastos, navegació per teclat) i amb bones pràctiques de SEO (metadades i Open Graph per compartir campanyes a WhatsApp i xarxes).
 - RGPD: dades mínimes, consentiment a les inscripcions, política de privacitat editable i sense galetes de seguiment per defecte.
 
-## 7. Abast lliurat en aquesta primera versió
+## 7. Identitat visual
+
+El disseny parteix del **logotip de l'AFA**: la magrana de La Granada i tres figures que representen la comunitat educativa.
+
+| Color | Hex | Ús a la web |
+|---|---|---|
+| Verd | `#078838` | Color principal: botons, enllaços, menú actiu, franja de l'app, capçaleres de les entrades |
+| Vermell | `#d9151c` | Micromecenatge: botons «Col·labora-hi» i «Fer la donació», dates de l'agenda |
+| Groc | `#fbdc08` | Accent: botó principal «Fes-te soci/a», detalls decoratius |
+| Gris magrana | `#d6d7d7` | Motiu decoratiu de llavors de magrana als fons |
+| Negre | `#1d1d1b` | Textos i barra lateral del panell |
+
+- **Franja tricolor** (vermell, verd i groc) a la capçalera, al peu, a l'accés al panell i als correus.
+- **Barra de progrés** de les campanyes en degradat de verd a groc.
+- **Tipografies**: *Outfit* per als títols (geomètrica, propera a la del logotip) i *Nunito* per al text (arrodonida i molt llegible).
+- El logotip apareix a la capçalera, al peu, al panell d'administració, a la pantalla d'accés, als correus (incrustat perquè es vegi encara que el client bloquegi les imatges externes) i com a icona del navegador i del mòbil.
+- Des de Configuració es pot substituir el logotip per una altra versió sense tocar codi.
+
+## 8. Abast lliurat en aquesta primera versió
 
 - [x] Web pública completa amb contingut inicial en català (editable)
 - [x] CMS amb editor visual
@@ -96,9 +114,9 @@ Els serveis de l'AFA (extraescolars, acollida, menjador, llibres i material, act
 - [x] Panell amb rols, exportacions CSV i registre d'activitat
 - [x] Instal·lador i actualitzacions OTA amb còpies de seguretat
 
-## 8. Propers passos proposats
+## 9. Propers passos proposats
 
-1. **Contingut real:** logotip de l'AFA, fotografies (amb autorització d'imatge), textos de la Junta, quota, enllaços d'Abaco a les botigues.
+1. **Contingut real:** fotografies (amb autorització d'imatge), textos de la Junta, quota, enllaços d'Abaco a les botigues.
 2. **Hosting i domini:** apuntar afalagranada.cat al hosting, crear la base de dades i el correu `no-reply@`, i activar l'HTTPS.
 3. **Stripe:** crear el compte a nom de l'AFA (NIF i compte bancari de l'associació), primer en mode prova i després en mode real.
 4. **Prova pilot:** una activitat gratuïta (p. ex. la Castanyada) i una campanya petita.

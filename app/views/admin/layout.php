@@ -26,13 +26,13 @@ $cur = trim(current_path(), '/');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <title><?= e($title ?? 'Administració') ?> · Gestió AFA</title>
-    <link rel="icon" href="<?= asset('img/favicon.svg') ?>" type="image/svg+xml">
+    <link rel="icon" href="<?= asset('img/favicon.png') ?>" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/admin.css') ?>">
 </head>
 <body class="admin">
 <aside class="sidebar" id="sidebar">
-    <a class="sb-brand" href="<?= url('admin') ?>"><img src="<?= asset('img/logo.svg') ?>" alt="" width="34" height="34"> <span>Gestió AFA</span></a>
+    <a class="sb-brand" href="<?= url('admin') ?>"><img src="<?= asset('img/logo-afa.png') ?>" alt="AFA Jacint Verdaguer"> <span>Panell de gestió</span></a>
     <nav>
         <?php foreach ($nav as $item):
             if (!Auth::can($item[2])) continue;

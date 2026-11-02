@@ -66,7 +66,7 @@ $selected = old('amount', (string)($suggested[1] ?? $suggested[0] ?? 2000));
                         <div class="field"><label for="d-email">Correu electrònic *</label><input id="d-email" type="email" name="email" required value="<?= e(old('email')) ?>" autocomplete="email"></div>
                         <div class="field"><label for="d-msg">Missatge (opcional)</label><textarea id="d-msg" name="message" rows="2" maxlength="500"><?= e(old('message')) ?></textarea></div>
                         <label class="check"><input type="checkbox" name="anonymous" value="1" <?= old('anonymous') ? 'checked' : '' ?>> No mostrar el meu nom públicament</label>
-                        <button class="btn btn-accent btn-block btn-lg" type="submit"><?= icon('heart', 'icon icon-sm') ?> Fer la donació</button>
+                        <button class="btn btn-red btn-block btn-lg" type="submit"><?= icon('heart', 'icon icon-sm') ?> Fer la donació</button>
                         <p class="secure"><?= icon('shield', 'icon icon-sm') ?> Pagament segur amb targeta, Apple Pay o Google Pay mitjançant Stripe.</p>
                     </form>
                 <?php else: ?>

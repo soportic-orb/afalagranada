@@ -8,6 +8,6 @@
         <h3><a href="<?= url('campanyes/' . $c['slug']) ?>"><?= e($c['title']) ?></a></h3>
         <p><?= e(strip_to_text($c['summary'], 140)) ?></p>
         <?php partial('progress', ['stats' => $stats, 'compact' => true]); ?>
-        <a class="btn btn-primary btn-block" href="<?= url('campanyes/' . $c['slug']) ?>"><?= $c['status'] === 'active' ? 'Col·labora-hi' : 'Veure campanya' ?></a>
+        <a class="btn btn-red btn-block" href="<?= url('campanyes/' . $c['slug']) ?>"><?= $c['status'] === 'active' ? 'Col·labora-hi' : 'Veure campanya' ?></a>
     </div>
 </article>

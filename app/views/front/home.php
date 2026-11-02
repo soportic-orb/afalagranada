@@ -13,7 +13,7 @@
         </div>
         <?php if (!$heroImg): ?>
         <div class="hero-art" aria-hidden="true">
-            <img src="<?= asset('img/hero.svg') ?>" alt="">
+            <img src="<?= asset('img/logo-symbol.png') ?>" alt="" width="1030" height="543">
         </div>
         <?php endif; ?>
     </div>
