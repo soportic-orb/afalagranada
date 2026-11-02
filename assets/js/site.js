@@ -150,3 +150,27 @@
     setTimeout(function () { rain(80); }, 900);
     requestAnimationFrame(frame);
 })();
+
+// Botiga: mostra l'adreça i recalcula el total segons el lliurament
+(function () {
+    'use strict';
+    var form = document.getElementById('checkout-form');
+    if (!form) return;
+    var subtotal = parseInt(form.dataset.subtotal || '0', 10);
+    var shipping = parseInt(form.dataset.shipping || '0', 10);
+    var fields = form.querySelector('.shipping-fields');
+    var fmt = function (c) { var v = c / 100; return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)).replace('.', ',') + ' €'; };
+    function sync() {
+        var sel = form.querySelector('input[name="delivery"]:checked');
+        var ship = sel && sel.value === 'shipping';
+        if (fields) {
+            fields.hidden = !ship;
+            fields.querySelectorAll('input').forEach(function (i) { i.required = ship; });
+        }
+        var cost = ship ? shipping : 0;
+        form.querySelector('[data-ship]').textContent = cost ? fmt(cost) : 'Gratuït';
+        form.querySelector('[data-grand]').textContent = fmt(subtotal + cost);
+    }
+    form.querySelectorAll('input[name="delivery"]').forEach(function (r) { r.addEventListener('change', sync); });
+    sync();
+})();

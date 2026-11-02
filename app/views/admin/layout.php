@@ -14,6 +14,10 @@ $nav = [
     ['admin/r/campaigns', 'Campanyes', 'campaigns', 'heart'],
     ['admin/r/activities', 'Activitats', 'activities', 'calendar'],
     ['admin/checkin', 'Control d\'accés (QR)', 'checkin', 'check'],
+    ['_h', 'Botiga', 'shop'],
+    ['admin/orders', 'Comandes', 'shop', 'tag'],
+    ['admin/r/products', 'Productes i estoc', 'shop', 'gift'],
+    ['admin/shop-settings', 'Configuració de la botiga', 'shop', 'shield'],
     ['admin/messages', 'Missatges de contacte', 'messages', 'mail'],
     ['_h', 'Sistema', 'settings'],
     ['admin/settings', 'Configuració', 'settings', 'shield'],
@@ -30,6 +34,8 @@ $cur = trim(current_path(), '/');
     <meta name="robots" content="noindex">
     <title><?= e($title ?? 'Administració') ?> · Gestió AFA</title>
     <link rel="icon" href="<?= asset('img/favicon.png') ?>" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/admin.css') ?>">
 </head>
@@ -44,8 +50,9 @@ $cur = trim(current_path(), '/');
             <?php else:
                 $active = $item[0] === 'admin' ? $cur === 'admin' : str_starts_with($cur, $item[0]) ||
                     ($item[0] === 'admin/r/campaigns' && str_starts_with($cur, 'admin/campaigns')) ||
-                    ($item[0] === 'admin/r/activities' && str_starts_with($cur, 'admin/activities')); ?>
-                <a href="<?= url($item[0]) ?>" class="<?= $active ? 'active' : '' ?>"><?= icon($item[3], 'icon icon-sm') ?> <?= e($item[1]) ?><?php if ($item[0] === 'admin/messages' && ($nUnread = unread_messages())): ?><span class="nav-count"><?= $nUnread ?></span><?php endif; ?></a>
+                    ($item[0] === 'admin/r/activities' && str_starts_with($cur, 'admin/activities')) ||
+                    ($item[0] === 'admin/r/products' && str_starts_with($cur, 'admin/products')); ?>
+                <a href="<?= url($item[0]) ?>" class="<?= $active ? 'active' : '' ?>"><?= icon($item[3], 'icon icon-sm') ?> <?= e($item[1]) ?><?php if ($item[0] === 'admin/messages' && ($nUnread = unread_messages())): ?><span class="nav-count"><?= $nUnread ?></span><?php endif; ?><?php if ($item[0] === 'admin/orders' && ($nOrd = orders_to_prepare())): ?><span class="nav-count"><?= $nOrd ?></span><?php endif; ?></a>
             <?php endif; endforeach; ?>
     </nav>
     <div class="sb-foot">

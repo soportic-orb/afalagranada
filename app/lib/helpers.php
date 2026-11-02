@@ -455,6 +455,7 @@ function hero_sections(): array
         'campaigns' => 'Campanyes (llistat, fitxes i agraïment)',
         'news' => 'Notícies',
         'contact' => 'Contacte',
+        'shop' => 'Botiga',
         'app' => 'L\'app de l\'AFA',
         'pages' => 'Pàgines (si la pàgina no té imatge pròpia)',
     ];
@@ -482,6 +483,21 @@ function unread_messages(): int
     if ($n === null) {
         try {
             $n = (int)db()->value('SELECT COUNT(*) FROM contact_messages WHERE read_at IS NULL');
+        } catch (Throwable $e) {
+            $n = 0;
+        }
+    }
+    return $n;
+}
+
+
+/** Comandes pagades pendents de preparar (0 si la taula encara no existeix) */
+function orders_to_prepare(): int
+{
+    static $n = null;
+    if ($n === null) {
+        try {
+            $n = (int)db()->value("SELECT COUNT(*) FROM orders WHERE status = 'received'");
         } catch (Throwable $e) {
             $n = 0;
         }

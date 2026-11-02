@@ -24,7 +24,8 @@ final class Stripe
     public static function request(string $method, string $path, array $params = []): array
     {
         $ch = curl_init();
-        $url = self::API . ltrim($path, '/');
+        // 'stripe_api_base' a config.php permet apuntar a un servidor de proves (només desenvolupament)
+        $url = rtrim((string)config('stripe_api_base', self::API), '/') . '/' . ltrim($path, '/');
         $body = http_build_query($params, '', '&');
         if ($method === 'GET' && $params) {
             $url .= '?' . $body;
@@ -86,6 +87,48 @@ final class Stripe
         return self::request('POST', 'checkout/sessions', $params);
     }
 
+    /** Sessió de Checkout per a una comanda de la botiga (diverses línies + enviament) */
+    public static function createOrderCheckout(array $order, array $items): array
+    {
+        $lineItems = [];
+        foreach ($items as $it) {
+            $lineItems[] = [
+                'quantity' => (int)$it['quantity'],
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => (int)$it['unit_cents'],
+                    'product_data' => ['name' => mb_substr($it['name'] . ($it['variant_name'] ? ' (' . $it['variant_name'] . ')' : ''), 0, 250)],
+                ],
+            ];
+        }
+        if ((int)$order['shipping_cents'] > 0) {
+            $lineItems[] = ['quantity' => 1, 'price_data' => ['currency' => 'eur', 'unit_amount' => (int)$order['shipping_cents'], 'product_data' => ['name' => 'Enviament']]];
+        }
+        $meta = ['type' => 'order', 'order_id' => (string)$order['id'], 'order_number' => (string)$order['number']];
+        return self::request('POST', 'checkout/sessions', [
+            'mode' => 'payment',
+            'locale' => 'auto',
+            'customer_email' => $order['email'],
+            'client_reference_id' => (string)$order['number'],
+            'success_url' => abs_url('botiga/comanda/' . $order['code']) . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => abs_url('botiga/cistella') . '?cancel=1',
+            'line_items' => $lineItems,
+            'metadata' => $meta,
+            'payment_intent_data' => ['metadata' => $meta, 'description' => 'Comanda ' . $order['number']],
+            'expires_at' => time() + 3600,
+        ]);
+    }
+
+    /** Devolució (total o parcial) d'un pagament */
+    public static function refund(string $paymentIntent, int $amount, array $metadata = []): array
+    {
+        return self::request('POST', 'refunds', array_filter([
+            'payment_intent' => $paymentIntent,
+            'amount' => $amount,
+            'metadata' => $metadata,
+        ]));
+    }
+
     public static function retrieveCheckout(string $id): array
     {
         return self::request('GET', 'checkout/sessions/' . rawurlencode($id));
@@ -133,6 +176,11 @@ final class Stripe
                 db()->run("UPDATE donations SET status = 'paid', paid_at = NOW(), stripe_payment_intent = ? WHERE id = ?", [$pi, $don['id']]);
                 Mailer::donationThanks((int)$don['id']);
             }
+        } elseif (($meta['type'] ?? '') === 'order') {
+            $order = db()->one('SELECT * FROM orders WHERE stripe_session_id = ?', [$session['id']]);
+            if ($order) {
+                Shop::markPaid($order, $pi);
+            }
         } elseif (($meta['type'] ?? '') === 'registration') {
             $reg = db()->one('SELECT * FROM registrations WHERE stripe_session_id = ?', [$session['id']]);
             if ($reg && $reg['status'] !== 'paid') {
@@ -146,5 +194,9 @@ final class Stripe
     {
         db()->run("UPDATE donations SET status = 'expired' WHERE stripe_session_id = ? AND status = 'pending'", [$session['id']]);
         db()->run("UPDATE registrations SET status = 'expired' WHERE stripe_session_id = ? AND status = 'pending'", [$session['id']]);
+        $order = db()->one("SELECT * FROM orders WHERE stripe_session_id = ? AND payment_status = 'pending'", [$session['id']]);
+        if ($order) {
+            Shop::expire($order);
+        }
     }
 }

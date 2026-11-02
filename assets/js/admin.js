@@ -53,3 +53,29 @@
         });
     });
 })();
+
+// Camps que depenen d'una casella (p. ex. «Inscripcions en web externa»)
+(function () {
+    'use strict';
+    function sync(box) {
+        var on = box.checked;
+        document.querySelectorAll('[data-disabled-when="' + box.id + '"]').forEach(function (el) {
+            el.classList.toggle('is-disabled', on);
+            el.querySelectorAll('input, select, textarea').forEach(function (i) { i.disabled = on; });
+        });
+        document.querySelectorAll('[data-shown-when="' + box.id + '"]').forEach(function (el) {
+            el.hidden = !on;
+            el.querySelectorAll('input').forEach(function (i) { i.required = on; });
+        });
+    }
+    var ids = {};
+    document.querySelectorAll('[data-disabled-when], [data-shown-when]').forEach(function (el) {
+        ids[el.getAttribute('data-disabled-when') || el.getAttribute('data-shown-when')] = true;
+    });
+    Object.keys(ids).forEach(function (id) {
+        var box = document.getElementById(id);
+        if (!box) return;
+        box.addEventListener('change', function () { sync(box); });
+        sync(box);
+    });
+})();

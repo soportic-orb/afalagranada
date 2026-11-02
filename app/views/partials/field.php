@@ -9,9 +9,9 @@ if ($type === 'heading'): ?>
 <?php elseif ($type === 'info'): ?>
     <p class="help-box"><?= $f['label'] ?></p>
 <?php elseif ($type === 'checkbox'): ?>
-    <label class="check"><input type="checkbox" name="<?= e($name) ?>" value="1" <?= $value ? 'checked' : '' ?>> <?= e($f['label']) ?></label>
+    <label class="check<?= !empty($f['toggles']) ? ' check-toggle' : '' ?>"<?= isset($f['disabled_when']) ? ' data-disabled-when="f-' . e($f['disabled_when']) . '"' : '' ?>><input type="checkbox" id="<?= e($id) ?>" name="<?= e($name) ?>" value="1" <?= $value ? 'checked' : '' ?>> <?= e($f['label']) ?></label>
 <?php else: ?>
-<div class="field">
+<div class="field"<?= isset($f['disabled_when']) ? ' data-disabled-when="f-' . e($f['disabled_when']) . '"' : '' ?><?= isset($f['shown_when']) ? ' data-shown-when="f-' . e($f['shown_when']) . '"' : '' ?>>
     <label for="<?= e($id) ?>"><?= e($f['label']) ?><?= $req ? ' *' : '' ?></label>
     <?php switch ($type):
         case 'textarea': ?>
@@ -19,6 +19,7 @@ if ($type === 'heading'): ?>
         <?php break; case 'html': ?>
             <div class="editor <?= !empty($f['small']) ? 'small' : '' ?>" data-target="<?= e($id) ?>"></div>
             <textarea id="<?= e($id) ?>" name="<?= e($name) ?>" class="editor-source" hidden><?= e($value) ?></textarea>
+            <?php if (empty($f['small'])): ?><p class="editor-hint">Cada salt de línia es mostra igual a la web. Per separar paràgrafs, deixa una línia en blanc.</p><?php endif; ?>
         <?php break; case 'image': ?>
             <?php if ($value): ?><div class="img-preview"><img src="<?= e(upload_url($value)) ?>" alt=""><label class="check small"><input type="checkbox" name="<?= e($name) ?>__remove" value="1"> Treure la imatge</label></div><?php endif; ?>
             <input type="file" id="<?= e($id) ?>" name="<?= e($name) ?>" accept="image/jpeg,image/png,image/webp,image/gif">
@@ -33,7 +34,7 @@ if ($type === 'heading'): ?>
                 <?php endforeach; ?>
             </div>
         <?php break; case 'money': ?>
-            <div class="input-suffix"><input type="text" inputmode="decimal" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e($value === null ? '' : cents_to_input((int)$value)) ?>" <?= $req ?>><span>€</span></div>
+            <div class="input-suffix"><input type="text" inputmode="decimal" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e(($value === null || $value === '') ? '' : cents_to_input((int)$value)) ?>" <?= $req ?>><span>€</span></div>
         <?php break; case 'number': ?>
             <input type="number" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e($value) ?>" <?= $req ?>>
         <?php break; case 'date': ?>

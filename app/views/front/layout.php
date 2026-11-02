@@ -51,6 +51,7 @@ $logo = setting('logo', '');
             <?php endforeach; ?>
             <a href="<?= url('activitats') ?>" class="<?= is_active_path('/activitats') ? 'active' : '' ?>">Activitats</a>
             <a href="<?= url('campanyes') ?>" class="<?= is_active_path('/campanyes') ? 'active' : '' ?>">Campanyes</a>
+            <?php if (Shop::enabled()): ?><a href="<?= url('botiga') ?>" class="<?= is_active_path('/botiga') ? 'active' : '' ?>">Botiga</a><?php endif; ?>
             <a href="<?= url('contacte') ?>" class="<?= is_active_path('/contacte') ? 'active' : '' ?>">Contacte</a>
             <a href="<?= url('aplicacio') ?>" class="nav-cta <?= is_active_path('/aplicacio') ? 'active' : '' ?>"><?= icon('phone', 'icon icon-sm') ?> L'app</a>
         </nav>
@@ -83,6 +84,7 @@ $logo = setting('logo', '');
                 <li><a href="<?= url('activitats') ?>">Activitats i inscripcions</a></li>
                 <li><a href="<?= url('campanyes') ?>">Campanyes de micromecenatge</a></li>
                 <li><a href="<?= url('noticies') ?>">Notícies</a></li>
+                <?php if (Shop::enabled()): ?><li><a href="<?= url('botiga') ?>">Botiga</a></li><li><a href="<?= url('botiga/seguiment') ?>">Seguir la meva comanda</a></li><?php endif; ?>
                 <li><a href="<?= url('contacte') ?>">Contacte</a></li>
                 <li><a href="<?= url('aplicacio') ?>">L'app de l'AFA</a></li>
             </ul>

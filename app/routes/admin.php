@@ -60,6 +60,9 @@ $router->get('/admin', function () {
     $lastDonations = db()->all("SELECT d.*, c.title AS campaign FROM donations d JOIN campaigns c ON c.id = d.campaign_id WHERE d.status = 'paid' ORDER BY d.paid_at DESC LIMIT 6");
     $lastRegs = db()->all("SELECT r.*, a.title AS activity FROM registrations r JOIN activities a ON a.id = r.activity_id WHERE r.status IN ('paid','free') ORDER BY r.created_at DESC LIMIT 6");
     $warnings = [];
+    if ($nOrd = orders_to_prepare()) {
+        $warnings[] = 'Tens ' . $nOrd . ' comanda' . ($nOrd > 1 ? 'es' : '') . ' de la botiga per preparar. <a href="' . url('admin/orders?status=received') . '">Veure-les</a>.';
+    }
     if ($nMsg = unread_messages()) {
         $warnings[] = 'Tens ' . $nMsg . ' missatge' . ($nMsg > 1 ? 's' : '') . ' de contacte sense llegir. <a href="' . url('admin/messages?f=unread') . '">Veure\'ls</a>.';
     }
@@ -448,6 +451,25 @@ $settingsForms = [
             ['name' => 'app_help', 'label' => 'Com començar / preguntes freqüents', 'type' => 'html'],
         ],
     ],
+    'shop' => [
+        'title' => 'Configuració de la botiga',
+        'area' => 'shop',
+        'fields' => [
+            ['name' => 'shop_enabled', 'label' => 'Botiga activa (visible al menú i oberta a les compres)', 'type' => 'checkbox'],
+            ['name' => 'shop_title', 'label' => 'Títol de la botiga', 'default' => 'Botiga de l\'AFA'],
+            ['name' => 'shop_intro', 'label' => 'Text introductori', 'type' => 'textarea'],
+            ['type' => 'heading', 'label' => 'Lliurament'],
+            ['name' => 'shop_pickup_enabled', 'label' => 'Permetre recollida a l\'escola', 'type' => 'checkbox'],
+            ['name' => 'shop_pickup_text', 'label' => 'Text de la recollida', 'default' => 'Recollida a l\'escola'],
+            ['name' => 'shop_shipping_enabled', 'label' => 'Permetre enviament a domicili', 'type' => 'checkbox'],
+            ['name' => 'shop_shipping_cents', 'label' => 'Cost de l\'enviament (€)', 'type' => 'money'],
+            ['name' => 'shop_free_shipping_cents', 'label' => 'Enviament gratuït a partir de (€)', 'type' => 'money', 'help' => 'En blanc o 0 = sense enviament gratuït.'],
+            ['type' => 'heading', 'label' => 'Comandes'],
+            ['name' => 'shop_allow_cancel', 'label' => 'El client pot cancel·lar la comanda (amb devolució automàtica) mentre estigui en estat «Rebuda»', 'type' => 'checkbox'],
+            ['name' => 'shop_notify_email', 'label' => 'Avisar de noves comandes a', 'type' => 'email', 'help' => 'En blanc s\'utilitza el correu d\'avisos general.'],
+            ['name' => 'shop_terms', 'label' => 'Condicions de venda, canvis i devolucions', 'type' => 'html'],
+        ],
+    ],
     'headers' => [
         'title' => 'Imatges de capçalera',
         'area' => 'content',
@@ -503,7 +525,7 @@ $settingsForms = [
     ],
 ];
 
-foreach (['home' => '/admin/home', 'app' => '/admin/app', 'headers' => '/admin/headers', 'settings' => '/admin/settings'] as $formKey => $route) {
+foreach (['home' => '/admin/home', 'app' => '/admin/app', 'headers' => '/admin/headers', 'shop' => '/admin/shop-settings', 'settings' => '/admin/settings'] as $formKey => $route) {
     $router->any($route, function () use ($formKey, $settingsForms, $route) {
         $form = $settingsForms[$formKey];
         Auth::require($form['area']);
@@ -535,7 +557,11 @@ foreach (['home' => '/admin/home', 'app' => '/admin/app', 'headers' => '/admin/h
                 if ($type === 'secret' && $val === '') {
                     continue; // no sobreescriure secrets si es deixen en blanc
                 }
-                if ($type === 'html') {
+                if ($type === 'checkbox') {
+                    $val = !empty($_POST[$name]) ? '1' : '0';
+                } elseif ($type === 'money') {
+                    $val = trim($val) === '' ? '' : (string)to_cents($val);
+                } elseif ($type === 'html') {
                     $val = Sanitizer::html($val);
                 } elseif ($type !== 'textarea') {
                     $val = trim($val);
