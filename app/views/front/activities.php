@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small">
+<section class="page-hero small<?= hero_bg('activities') ?>">
     <div class="container">
         <p class="eyebrow">Agenda</p>
         <h1>Activitats</h1>

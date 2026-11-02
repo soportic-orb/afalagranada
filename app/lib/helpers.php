@@ -422,6 +422,7 @@ function icon(string $name, string $class = 'icon'): string
         'bus' => '<rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M8 19v2M16 19v2"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/>',
         'leaf' => '<path d="M11 20A7 7 0 0 1 4 13C4 7 9 3 20 3c0 11-4 16-10 16"/><path d="M4 21c4-4 7-7 11-10"/>',
         'mail' => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>',
+        'image' => '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>',
     ];
     $p = $paths[$name] ?? $paths['star'];
     return '<svg class="' . e($class) . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $p . '</svg>';
@@ -429,5 +430,31 @@ function icon(string $name, string $class = 'icon'): string
 
 function icon_names(): array
 {
-    return ['heart','star','sun','book','food','clock','ball','music','users','gift','tag','megaphone','palette','phone','calendar','pin','check','shield','bus','leaf','mail'];
+    return ['heart','star','sun','book','food','clock','ball','music','users','gift','tag','megaphone','palette','phone','calendar','pin','check','shield','bus','leaf','mail','image'];
+}
+
+
+/**
+ * Imatge de fons de la capçalera d'un apartat (configurable a Panell → Imatges de capçalera).
+ * Retorna els atributs class/style per afegir a <section class="page-hero ...">.
+ */
+function hero_bg(string $section, ?string $override = null): string
+{
+    $img = $override ?: (string)setting('hero_bg_' . $section, '');
+    if ($img === '') {
+        return '';
+    }
+    return ' with-image" style="--hero-img:url(\'' . e(upload_url($img)) . '\')';
+}
+
+/** Llista d'apartats amb imatge de capçalera configurable */
+function hero_sections(): array
+{
+    return [
+        'activities' => 'Activitats (llistat, fitxes i inscripcions)',
+        'campaigns' => 'Campanyes (llistat, fitxes i agraïment)',
+        'news' => 'Notícies',
+        'app' => 'L\'app de l\'AFA',
+        'pages' => 'Pàgines (si la pàgina no té imatge pròpia)',
+    ];
 }

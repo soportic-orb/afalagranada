@@ -5,6 +5,7 @@ $nav = [
     ['admin', 'Tauler', 'dashboard', 'star'],
     ['_h', 'Contingut', 'content'],
     ['admin/home', 'Portada i textos', 'content', 'sun'],
+    ['admin/headers', 'Imatges de capçalera', 'content', 'image'],
     ['admin/r/pages', 'Pàgines', 'content', 'book'],
     ['admin/r/blocks', 'Blocs (serveis, avantatges)', 'content', 'palette'],
     ['admin/r/posts', 'Notícies', 'content', 'megaphone'],

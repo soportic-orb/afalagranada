@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small">
+<section class="page-hero small<?= hero_bg('news') ?>">
     <div class="container narrow">
         <p class="eyebrow"><a href="<?= url('noticies') ?>">← Notícies</a> · <?= e(fmt_date($post['published_at'])) ?></p>
         <h1><?= e($post['title']) ?></h1>

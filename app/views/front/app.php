@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero app-hero">
+<section class="page-hero app-hero<?= hero_bg('app') ?>">
     <div class="container split">
         <div>
             <p class="eyebrow">L'app de l'AFA</p>
@@ -8,7 +8,7 @@
             <?php partial('store_badges'); ?>
             <?php if ($w = setting('app_web_url')): ?><p><a class="link-arrow" href="<?= e($w) ?>" target="_blank" rel="noopener">Accedeix a la versió web →</a></p><?php endif; ?>
         </div>
-        <div class="app-phone"><img src="<?= setting('app_image') ? e(upload_url(setting('app_image'))) : asset('img/phone.svg') ?>" alt="Captura de l'app"></div>
+        <?php partial('app_screens'); ?>
     </div>
 </section>
 <section class="section">

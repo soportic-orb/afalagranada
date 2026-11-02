@@ -1,5 +1,5 @@
 <?php defined('BASE_PATH') || exit; ?>
-<section class="page-hero small center">
+<section class="page-hero small center<?= hero_bg('campaigns') ?>">
     <div class="container narrow">
         <div class="big-icon"><?= icon('heart', 'icon icon-xl') ?></div>
         <h1>Moltes gràcies!</h1>

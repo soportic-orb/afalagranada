@@ -437,12 +437,24 @@ $settingsForms = [
             ['name' => 'app_name', 'label' => 'Nom de l\'app', 'default' => 'Abaco'],
             ['name' => 'app_tagline', 'label' => 'Frase destacada', 'default' => 'Tota la gestió de l\'AFA, al teu mòbil'],
             ['name' => 'app_intro', 'label' => 'Descripció', 'type' => 'html'],
-            ['name' => 'app_image', 'label' => 'Imatge / captura de l\'app', 'type' => 'image'],
+            ['name' => 'app_image', 'label' => 'Captura principal (al davant)', 'type' => 'image', 'help' => 'Captura de pantalla vertical del mòbil (recomanat 1080×2340 px o similar).'],
+            ['name' => 'app_image_2', 'label' => 'Segona captura (al darrere, inclinada)', 'type' => 'image', 'help' => 'Opcional. Es mostra darrere de la principal, una mica girada.'],
             ['name' => 'app_ios_url', 'label' => 'Enllaç App Store', 'type' => 'url'],
             ['name' => 'app_android_url', 'label' => 'Enllaç Google Play', 'type' => 'url'],
             ['name' => 'app_web_url', 'label' => 'Enllaç versió web (opcional)', 'type' => 'url'],
             ['name' => 'app_help', 'label' => 'Com començar / preguntes freqüents', 'type' => 'html'],
         ],
+    ],
+    'headers' => [
+        'title' => 'Imatges de capçalera',
+        'area' => 'content',
+        'fields' => array_merge(
+            [
+                ['type' => 'info', 'label' => 'Imatge de fons de la capçalera de cada apartat de la web. Es mostra amb una capa verda perquè el text sigui llegible. Recomanat: imatges horitzontals d\'uns 1920×800 px. Si no se n\'indica cap, es mostra el fons de llavors de magrana.'],
+                ['name' => 'hero_image', 'label' => 'Inici (portada)', 'type' => 'image'],
+            ],
+            array_map(fn($k, $l) => ['name' => 'hero_bg_' . $k, 'label' => $l, 'type' => 'image'], array_keys(hero_sections()), hero_sections())
+        ),
     ],
     'settings' => [
         'title' => 'Configuració',
@@ -485,7 +497,7 @@ $settingsForms = [
     ],
 ];
 
-foreach (['home' => '/admin/home', 'app' => '/admin/app', 'settings' => '/admin/settings'] as $formKey => $route) {
+foreach (['home' => '/admin/home', 'app' => '/admin/app', 'headers' => '/admin/headers', 'settings' => '/admin/settings'] as $formKey => $route) {
     $router->any($route, function () use ($formKey, $settingsForms, $route) {
         $form = $settingsForms[$formKey];
         Auth::require($form['area']);
