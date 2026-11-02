@@ -22,6 +22,7 @@
 | Campanyes | `/campanyes`, `/campanyes/{campanya}` | Llistat, fitxa amb barra de progrés, galeria, aportacions i donació |
 | L'app | `/aplicacio` | Presentació d'Abaco, funcionalitats, App Store, Google Play i guia per començar |
 | Notícies | `/noticies` | Actualitat de l'AFA |
+| Contacte | `/contacte` | Formulari de contacte (amb protecció anti-spam) i dades de l'AFA; pàgina de confirmació amb 🎉 i confetti |
 | Pàgines lliures | `/{pàgina}` | Qualsevol pàgina nova creada des del panell (p. ex. menjador, acollida, extraescolars) |
 | Entrades | `/inscripcio/{codi}`, `/entrada/{codi}` | Confirmació i entrades amb QR (no indexades) |
 | Privacitat | `/privacitat` | Text legal (RGPD) |

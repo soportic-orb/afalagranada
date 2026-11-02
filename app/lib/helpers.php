@@ -454,7 +454,37 @@ function hero_sections(): array
         'activities' => 'Activitats (llistat, fitxes i inscripcions)',
         'campaigns' => 'Campanyes (llistat, fitxes i agraïment)',
         'news' => 'Notícies',
+        'contact' => 'Contacte',
         'app' => 'L\'app de l\'AFA',
         'pages' => 'Pàgines (si la pàgina no té imatge pròpia)',
     ];
+}
+
+
+/** Motius del formulari de contacte */
+function contact_subjects(): array
+{
+    return [
+        'general' => 'Consulta general',
+        'soci' => 'Fer-se soci/a i quota',
+        'serveis' => 'Acollida, menjador i extraescolars',
+        'activitats' => 'Activitats i inscripcions',
+        'campanyes' => 'Campanyes i donacions',
+        'app' => 'App Abaco',
+        'altres' => 'Altres',
+    ];
+}
+
+/** Nombre de missatges de contacte sense llegir (0 si la taula encara no existeix) */
+function unread_messages(): int
+{
+    static $n = null;
+    if ($n === null) {
+        try {
+            $n = (int)db()->value('SELECT COUNT(*) FROM contact_messages WHERE read_at IS NULL');
+        } catch (Throwable $e) {
+            $n = 0;
+        }
+    }
+    return $n;
 }

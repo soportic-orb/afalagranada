@@ -7,6 +7,7 @@ Web pública i panell d'administració de l'AFA (domini **afalagranada.cat**).
 - **CMS** amb editor visual (Quill): pàgines, notícies, blocs de portada, textos.
 - **Micromecenatge** amb Stripe Checkout: campanyes, fita, barra de progrés, donacions, galeria.
 - **Activitats i inscripcions**: places, preu soci/no soci, pagament amb Stripe, **entrades amb codi QR** per correu, control d'accés amb la càmera del mòbil.
+- **Formulari de contacte** a `/contacte`: els missatges s'envien al correu configurat a Configuració i es desen a Panell → Missatges.
 - Pàgina de l'**app Abaco** amb enllaços a App Store i Google Play.
 - **Actualitzacions OTA** des del panell: descarrega la branca `main` de GitHub, fa còpia de seguretat i executa les migracions.
 

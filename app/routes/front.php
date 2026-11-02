@@ -392,3 +392,96 @@ $router->post('/stripe/webhook', function () {
     }
     json_response(['ok' => true]);
 });
+
+// ---------------------------------------------------------------- Contacte
+$router->get('/contacte', function () {
+    // Marca de temps signada: els robots que envien el formulari en menys de 3 s es descarten
+    $ts = (string)time();
+    $sig = hash_hmac('sha256', $ts, (string)config('app.key', 'afa'));
+    view('front/contact', [
+        'title' => 'Contacte',
+        'metaDescription' => setting('contact_intro', 'Contacta amb l\'AFA de l\'Escola Jacint Verdaguer de La Granada.'),
+        'formTs' => $ts . '.' . $sig,
+    ], 'front/layout');
+});
+
+$router->post('/contacte', function () {
+    verify_csrf();
+    remember_input();
+    $back = 'contacte#formulari';
+
+    // Paranys anti-spam: camp ocult i temps mínim d'emplenament
+    if (!empty($_POST['website'])) {
+        redirect('contacte/enviat');
+    }
+    [$ts, $sig] = array_pad(explode('.', (string)input('ts'), 2), 2, '');
+    $validSig = hash_equals(hash_hmac('sha256', $ts, (string)config('app.key', 'afa')), $sig);
+    if (!$validSig || time() - (int)$ts < 3 || time() - (int)$ts > 7200) {
+        flash('error', 'No hem pogut validar el formulari. Torna-ho a provar.');
+        redirect($back);
+    }
+
+    $name = mb_substr(trim((string)input('name')), 0, 150);
+    $email = filter_var(trim((string)input('email')), FILTER_VALIDATE_EMAIL);
+    $phone = mb_substr(trim((string)input('phone')), 0, 40);
+    $subjectKey = (string)input('subject');
+    $subjects = contact_subjects();
+    $subject = $subjects[$subjectKey] ?? $subjects['general'];
+    $message = trim((string)input('message'));
+
+    $errors = [];
+    if ($name === '') {
+        $errors[] = 'Indica el teu nom.';
+    }
+    if (!$email) {
+        $errors[] = 'Indica un correu electrònic vàlid.';
+    }
+    if (mb_strlen($message) < 10) {
+        $errors[] = 'El missatge és massa curt.';
+    }
+    if (mb_strlen($message) > 5000) {
+        $errors[] = 'El missatge és massa llarg (màxim 5.000 caràcters).';
+    }
+    if (!input('accept')) {
+        $errors[] = 'Cal acceptar la política de privacitat.';
+    }
+    $recent = (int)db()->value('SELECT COUNT(*) FROM contact_messages WHERE ip = ? AND created_at > ?', [client_ip(), date('Y-m-d H:i:s', time() - 3600)]);
+    if ($recent >= 5) {
+        $errors[] = 'Has enviat massa missatges en poca estona. Torna-ho a provar més tard.';
+    }
+    if ($errors) {
+        flash('error', implode(' ', $errors));
+        redirect($back);
+    }
+
+    $id = db()->insert('contact_messages', [
+        'name' => $name,
+        'email' => mb_strtolower((string)$email),
+        'phone' => $phone ?: null,
+        'subject' => $subject,
+        'message' => $message,
+        'ip' => client_ip(),
+    ]);
+
+    $to = (string)setting('contact_form_email', setting('contact_email', ''));
+    if ($to !== '') {
+        $html = render('emails/contact', ['m' => [
+            'id' => $id, 'name' => $name, 'email' => $email, 'phone' => $phone, 'subject' => $subject, 'message' => $message,
+        ]]);
+        if (Mailer::send($to, 'Nou missatge de contacte: ' . $subject . ' — ' . $name, $html, [], (string)$email, $name)) {
+            db()->run('UPDATE contact_messages SET email_sent = 1 WHERE id = ?', [$id]);
+        }
+    }
+
+    clear_old();
+    $_SESSION['contact_sent'] = time();
+    redirect('contacte/enviat');
+});
+
+$router->get('/contacte/enviat', function () {
+    $sent = (int)($_SESSION['contact_sent'] ?? 0);
+    if (!$sent || time() - $sent > 600) {
+        redirect('contacte');
+    }
+    view('front/contact_sent', ['title' => 'Missatge rebut', 'noindex' => true], 'front/layout');
+});

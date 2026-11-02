@@ -60,6 +60,9 @@ $router->get('/admin', function () {
     $lastDonations = db()->all("SELECT d.*, c.title AS campaign FROM donations d JOIN campaigns c ON c.id = d.campaign_id WHERE d.status = 'paid' ORDER BY d.paid_at DESC LIMIT 6");
     $lastRegs = db()->all("SELECT r.*, a.title AS activity FROM registrations r JOIN activities a ON a.id = r.activity_id WHERE r.status IN ('paid','free') ORDER BY r.created_at DESC LIMIT 6");
     $warnings = [];
+    if ($nMsg = unread_messages()) {
+        $warnings[] = 'Tens ' . $nMsg . ' missatge' . ($nMsg > 1 ? 's' : '') . ' de contacte sense llegir. <a href="' . url('admin/messages?f=unread') . '">Veure\'ls</a>.';
+    }
     if (!Stripe::enabled()) {
         $warnings[] = 'Stripe no està configurat: no es poden rebre pagaments. <a href="' . url('admin/settings') . '">Configura\'l</a>.';
     } elseif (!setting('stripe_webhook_secret')) {
@@ -472,6 +475,9 @@ $settingsForms = [
             ['name' => 'social_instagram', 'label' => 'Instagram (URL)', 'type' => 'url'],
             ['name' => 'social_facebook', 'label' => 'Facebook (URL)', 'type' => 'url'],
             ['name' => 'privacy_url', 'label' => 'URL política de privacitat', 'default' => '/privacitat'],
+            ['type' => 'heading', 'label' => 'Formulari de contacte'],
+            ['name' => 'contact_form_email', 'label' => 'Correu on es reben els missatges del formulari', 'type' => 'email', 'help' => 'Si es deixa en blanc, s\'utilitza el correu de contacte. Els missatges també es desen a Panell → Missatges.'],
+            ['name' => 'contact_intro', 'label' => 'Text introductori de la pàgina de contacte', 'type' => 'textarea', 'default' => 'Tens dubtes, suggeriments o vols col·laborar amb l\'AFA? Escriu-nos i et respondrem tan aviat com puguem.'],
             ['type' => 'heading', 'label' => 'Stripe (pagaments)'],
             ['type' => 'info', 'label' => 'Crea un compte a stripe.com i copia les claus des de Developers → API keys. Configura un webhook cap a <code>' . e(abs_url('stripe/webhook')) . '</code> amb els esdeveniments <code>checkout.session.completed</code>, <code>checkout.session.expired</code>, <code>checkout.session.async_payment_succeeded</code>, <code>checkout.session.async_payment_failed</code> i <code>charge.refunded</code>.'],
             ['name' => 'stripe_publishable_key', 'label' => 'Clau publicable (pk_...)'],
@@ -622,4 +628,45 @@ $router->get('/admin/log', function () {
     Auth::require('users');
     $rows = db()->all('SELECT l.*, u.name FROM activity_log l LEFT JOIN users u ON u.id = l.user_id ORDER BY l.id DESC LIMIT 300');
     admin_view('log', ['title' => 'Registre d\'activitat', 'rows' => $rows]);
+});
+
+// ---------------------------------------------------------------- Missatges de contacte
+$router->get('/admin/messages', function () {
+    Auth::require('messages');
+    $filter = (string)input('f', 'all');
+    $where = $filter === 'unread' ? 'WHERE read_at IS NULL' : '';
+    $rows = db()->all("SELECT * FROM contact_messages $where ORDER BY created_at DESC LIMIT 500");
+    if (input('export') === 'csv') {
+        csv_download('missatges-contacte.csv', ['ID', 'Data', 'Nom', 'Correu', 'Telèfon', 'Motiu', 'Missatge', 'Llegit'],
+            array_map(fn($m) => [$m['id'], $m['created_at'], $m['name'], $m['email'], $m['phone'], $m['subject'], $m['message'], $m['read_at'] ? 'Sí' : 'No'], $rows));
+    }
+    $unread = (int)db()->value('SELECT COUNT(*) FROM contact_messages WHERE read_at IS NULL');
+    admin_view('messages', ['title' => 'Missatges de contacte', 'rows' => $rows, 'filter' => $filter, 'unread' => $unread]);
+});
+
+$router->get('/admin/messages/{id}', function (string $id) {
+    Auth::require('messages');
+    $m = db()->one('SELECT * FROM contact_messages WHERE id = ?', [(int)$id]) ?? abort(404);
+    if (!$m['read_at']) {
+        db()->run('UPDATE contact_messages SET read_at = NOW() WHERE id = ?', [$m['id']]);
+    }
+    admin_view('message', ['title' => 'Missatge de ' . $m['name'], 'm' => $m]);
+});
+
+$router->post('/admin/messages/{id}', function (string $id) {
+    Auth::require('messages');
+    verify_csrf();
+    $action = input('action');
+    if ($action === 'delete') {
+        db()->delete('contact_messages', (int)$id);
+        log_action('message:delete', "#$id");
+        flash('success', 'Missatge eliminat.');
+        redirect('admin/messages');
+    }
+    if ($action === 'unread') {
+        db()->run('UPDATE contact_messages SET read_at = NULL WHERE id = ?', [(int)$id]);
+        flash('success', 'Marcat com a no llegit.');
+        redirect('admin/messages');
+    }
+    redirect('admin/messages/' . (int)$id);
 });

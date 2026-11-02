@@ -44,11 +44,15 @@ final class Mailer
     }
 
     /** Envia un correu amb el disseny base. $embeds = [[cid, binari, nom]] */
-    public static function send(string $to, string $subject, string $bodyHtml, array $embeds = []): bool
+    public static function send(string $to, string $subject, string $bodyHtml, array $embeds = [], ?string $replyTo = null, ?string $replyName = null): bool
     {
         try {
             $m = self::make();
             $m->addAddress($to);
+            if ($replyTo !== null && filter_var($replyTo, FILTER_VALIDATE_EMAIL)) {
+                $m->clearReplyTos();
+                $m->addReplyTo($replyTo, (string)$replyName);
+            }
             $m->Subject = $subject;
             $m->isHTML(true);
             $m->Body = render('emails/layout', ['subject' => $subject, 'body' => $bodyHtml]);
