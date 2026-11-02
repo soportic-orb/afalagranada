@@ -1,0 +1,20 @@
+{
+    "name": "soportic-orb/afalagranada",
+    "description": "Web de l'AFA de l'Escola Jacint Verdaguer de La Granada",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
+        "chillerlan/php-qrcode": "^5.0",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {"php": "8.1.0"},
+        "preferred-install": "dist"
+    }
+}

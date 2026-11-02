@@ -1,0 +1,182 @@
+-- Esquema inicial AFA La Granada
+CREATE TABLE IF NOT EXISTS settings (
+    `key` VARCHAR(100) NOT NULL PRIMARY KEY,
+    `value` MEDIUMTEXT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(190) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'editor',
+    active TINYINT(1) NOT NULL DEFAULT 1,
+    last_login_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ip VARCHAR(45) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (ip, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS pages (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(150) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    excerpt TEXT NULL,
+    content MEDIUMTEXT NULL,
+    image VARCHAR(255) NULL,
+    show_in_menu TINYINT(1) NOT NULL DEFAULT 1,
+    menu_order INT NOT NULL DEFAULT 0,
+    published TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Blocs reutilitzables de la portada: avantatges de ser soci/a, serveis de l'AFA...
+CREATE TABLE IF NOT EXISTS blocks (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    group_key VARCHAR(50) NOT NULL,
+    title VARCHAR(200) NOT NULL,
+    icon VARCHAR(50) NULL,
+    body MEDIUMTEXT NULL,
+    link_url VARCHAR(255) NULL,
+    image VARCHAR(255) NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    published TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (group_key, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS posts (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(150) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    excerpt TEXT NULL,
+    content MEDIUMTEXT NULL,
+    image VARCHAR(255) NULL,
+    published TINYINT(1) NOT NULL DEFAULT 1,
+    published_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Crowdfunding
+CREATE TABLE IF NOT EXISTS campaigns (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(150) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    summary TEXT NULL,
+    description MEDIUMTEXT NULL,
+    image VARCHAR(255) NULL,
+    goal_cents INT UNSIGNED NOT NULL DEFAULT 0,
+    min_donation_cents INT UNSIGNED NOT NULL DEFAULT 100,
+    suggested_amounts VARCHAR(100) NULL,
+    offline_cents INT UNSIGNED NOT NULL DEFAULT 0,
+    starts_at DATE NULL,
+    ends_at DATE NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'draft',
+    featured TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS campaign_images (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    campaign_id INT UNSIGNED NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    caption VARCHAR(255) NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS donations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    campaign_id INT UNSIGNED NOT NULL,
+    amount_cents INT UNSIGNED NOT NULL,
+    donor_name VARCHAR(150) NULL,
+    donor_email VARCHAR(190) NULL,
+    message TEXT NULL,
+    anonymous TINYINT(1) NOT NULL DEFAULT 0,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    method VARCHAR(20) NOT NULL DEFAULT 'stripe',
+    stripe_session_id VARCHAR(255) NULL,
+    stripe_payment_intent VARCHAR(255) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    paid_at DATETIME NULL,
+    INDEX (campaign_id, status),
+    INDEX (stripe_session_id),
+    FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Activitats i inscripcions
+CREATE TABLE IF NOT EXISTS activities (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(150) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    summary TEXT NULL,
+    description MEDIUMTEXT NULL,
+    image VARCHAR(255) NULL,
+    location VARCHAR(200) NULL,
+    starts_at DATETIME NULL,
+    ends_at DATETIME NULL,
+    capacity INT UNSIGNED NOT NULL DEFAULT 0,
+    max_per_registration INT UNSIGNED NOT NULL DEFAULT 4,
+    price_cents INT UNSIGNED NOT NULL DEFAULT 0,
+    member_price_cents INT UNSIGNED NULL,
+    registration_opens DATETIME NULL,
+    registration_closes DATETIME NULL,
+    ask_course TINYINT(1) NOT NULL DEFAULT 1,
+    status VARCHAR(20) NOT NULL DEFAULT 'draft',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS registrations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    activity_id INT UNSIGNED NOT NULL,
+    code VARCHAR(40) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(190) NOT NULL,
+    phone VARCHAR(40) NULL,
+    is_member TINYINT(1) NOT NULL DEFAULT 0,
+    quantity INT UNSIGNED NOT NULL DEFAULT 1,
+    amount_cents INT UNSIGNED NOT NULL DEFAULT 0,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    notes TEXT NULL,
+    stripe_session_id VARCHAR(255) NULL,
+    stripe_payment_intent VARCHAR(255) NULL,
+    tickets_sent_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    paid_at DATETIME NULL,
+    INDEX (activity_id, status),
+    INDEX (stripe_session_id),
+    FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS tickets (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    registration_id INT UNSIGNED NOT NULL,
+    code VARCHAR(40) NOT NULL UNIQUE,
+    attendee_name VARCHAR(150) NOT NULL,
+    attendee_course VARCHAR(50) NULL,
+    checked_in_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (registration_id) REFERENCES registrations(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS stripe_events (
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    type VARCHAR(100) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS activity_log (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NULL,
+    action VARCHAR(100) NOT NULL,
+    details TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

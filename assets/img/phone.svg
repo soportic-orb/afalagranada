@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 560">
+  <rect x="10" y="10" width="280" height="540" rx="42" fill="#1d2b2a"/>
+  <rect x="24" y="24" width="252" height="512" rx="30" fill="#fffdf8"/>
+  <rect x="110" y="34" width="80" height="18" rx="9" fill="#1d2b2a"/>
+  <rect x="24" y="64" width="252" height="110" fill="#1f6f5c"/>
+  <text x="44" y="110" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#fff">Hola, família!</text>
+  <text x="44" y="138" font-family="Arial, sans-serif" font-size="13" fill="#cfe7df">AFA Jacint Verdaguer</text>
+  <circle cx="240" cy="110" r="18" fill="#f2b134"/>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#1d2b2a">
+    <rect x="40" y="192" width="104" height="96" rx="16" fill="#e3f1ec"/>
+    <circle cx="70" cy="222" r="14" fill="#1f6f5c"/><text x="52" y="270">Quota soci/a</text>
+    <rect x="156" y="192" width="104" height="96" rx="16" fill="#fdf0d2"/>
+    <circle cx="186" cy="222" r="14" fill="#f2b134"/><text x="168" y="270">Serveis</text>
+    <rect x="40" y="300" width="104" height="96" rx="16" fill="#fbe5de"/>
+    <circle cx="70" cy="330" r="14" fill="#e76f51"/><text x="52" y="378">Activitats</text>
+    <rect x="156" y="300" width="104" height="96" rx="16" fill="#e1eff7"/>
+    <circle cx="186" cy="330" r="14" fill="#6cb4d9"/><text x="168" y="378">Avisos</text>
+  </g>
+  <rect x="40" y="414" width="220" height="50" rx="14" fill="#f6f1e6"/>
+  <rect x="56" y="430" width="120" height="8" rx="4" fill="#c8c2b4"/>
+  <rect x="56" y="444" width="80" height="6" rx="3" fill="#ddd7c9"/>
+  <rect x="40" y="474" width="220" height="50" rx="14" fill="#f6f1e6"/>
+  <rect x="56" y="490" width="140" height="8" rx="4" fill="#c8c2b4"/>
+  <rect x="56" y="504" width="90" height="6" rx="3" fill="#ddd7c9"/>
+</svg>

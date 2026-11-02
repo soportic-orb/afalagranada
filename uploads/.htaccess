@@ -1,0 +1,5 @@
+# No executar scripts a la carpeta de pujades
+<FilesMatch "\.(php|phtml|php\d|phar|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

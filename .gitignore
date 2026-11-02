@@ -1,0 +1,9 @@
+/config.php
+/uploads/*
+!/uploads/.htaccess
+!/uploads/index.html
+/storage/*
+!/storage/.htaccess
+!/storage/.gitkeep
+.DS_Store
+/node_modules
