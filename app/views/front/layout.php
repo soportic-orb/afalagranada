@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $siteName = setting('site_name', 'AFA Escola Jacint Verdaguer');
 $tagline = setting('site_tagline', 'La Granada');
@@ -50,7 +51,7 @@ $logo = setting('logo', '');
             <?php endforeach; ?>
             <a href="<?= url('activitats') ?>" class="<?= is_active_path('/activitats') ? 'active' : '' ?>">Activitats</a>
             <a href="<?= url('campanyes') ?>" class="<?= is_active_path('/campanyes') ? 'active' : '' ?>">Campanyes</a>
-            <a href="<?= url('app') ?>" class="nav-cta <?= is_active_path('/app') ? 'active' : '' ?>"><?= icon('phone', 'icon icon-sm') ?> L'app</a>
+            <a href="<?= url('aplicacio') ?>" class="nav-cta <?= is_active_path('/aplicacio') ? 'active' : '' ?>"><?= icon('phone', 'icon icon-sm') ?> L'app</a>
         </nav>
     </div>
 </header>
@@ -81,7 +82,7 @@ $logo = setting('logo', '');
                 <li><a href="<?= url('activitats') ?>">Activitats i inscripcions</a></li>
                 <li><a href="<?= url('campanyes') ?>">Campanyes de micromecenatge</a></li>
                 <li><a href="<?= url('noticies') ?>">Notícies</a></li>
-                <li><a href="<?= url('app') ?>">L'app de l'AFA</a></li>
+                <li><a href="<?= url('aplicacio') ?>">L'app de l'AFA</a></li>
             </ul>
         </div>
         <div>

@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <p><a href="<?= url('admin/r/campaigns') ?>">← Campanyes</a> · <a href="<?= url('admin/r/campaigns/' . $c['id']) ?>">Editar campanya</a> · <a href="<?= url('campanyes/' . $c['slug']) ?>" target="_blank">Veure a la web ↗</a></p>
 <div class="panel"><?php partial('progress', ['stats' => $stats]); ?></div>
 <div class="toolbar">

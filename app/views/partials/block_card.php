@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="feature">
     <div class="feature-icon"><?= icon($b['icon'] ?: 'star') ?></div>
     <h3><?= e($b['title']) ?></h3>

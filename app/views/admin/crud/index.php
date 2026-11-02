@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="toolbar">
     <form class="search" method="get">
         <?php if ($filter !== null): ?><input type="hidden" name="f" value="<?= e($filter) ?>"><?php endif; ?>

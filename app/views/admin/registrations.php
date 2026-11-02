@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <p><a href="<?= url('admin/r/activities') ?>">← Activitats</a> · <a href="<?= url('admin/r/activities/' . $a['id']) ?>">Editar activitat</a> · <a href="<?= url('activitats/' . $a['slug']) ?>" target="_blank">Veure a la web ↗</a></p>
 <div class="stats">
     <div class="stat"><span>Participants</span><strong><?= (int)$summary['seats'] ?><?= $a['capacity'] ? ' / ' . (int)$a['capacity'] : '' ?></strong><small><?= (int)$summary['regs'] ?> inscripcions</small></div>

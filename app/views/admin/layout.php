@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $u = Auth::user();
 $nav = [

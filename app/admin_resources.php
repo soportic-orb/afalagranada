@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /**
  * Definició dels recursos editables des del panell d'administració.
  * Tipus de camp: text, textarea, html (editor visual), image, number, money, date, datetime,

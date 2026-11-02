@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php $heroImg = setting('hero_image', ''); ?>
 <section class="hero<?= $heroImg ? ' with-image' : '' ?>"<?= $heroImg ? ' style="--hero-img:url(\'' . e(upload_url($heroImg)) . '\')"' : '' ?>>
     <div class="container hero-inner">
@@ -73,7 +74,7 @@
                 <h3>Uneix-te a l'AFA</h3>
                 <p><?= setting('member_fee') ? 'Quota: <strong>' . e(setting('member_fee')) . '</strong>. ' : '' ?>L'alta i el pagament de la quota es fan des de l'app de l'AFA.</p>
             </div>
-            <a class="btn btn-accent" href="<?= url('app') ?>">Com fer-se soci/a</a>
+            <a class="btn btn-accent" href="<?= url('aplicacio') ?>">Com fer-se soci/a</a>
         </div>
     </div>
 </section>
@@ -114,7 +115,7 @@
             <h2><?= e(setting('app_tagline', 'Tota la gestió de l\'AFA, al teu mòbil')) ?></h2>
             <p class="lead">Amb <strong><?= e(setting('app_name', 'Abaco')) ?></strong> pots gestionar la quota de soci/a, pagar serveis, inscriure't a activitats i rebre els avisos de l'AFA.</p>
             <?php partial('store_badges'); ?>
-            <p><a class="link-arrow light" href="<?= url('app') ?>">Més informació sobre l'app →</a></p>
+            <p><a class="link-arrow light" href="<?= url('aplicacio') ?>">Més informació sobre l'app →</a></p>
         </div>
         <div class="app-phone" aria-hidden="true"><img src="<?= setting('app_image') ? e(upload_url(setting('app_image'))) : asset('img/phone.svg') ?>" alt=""></div>
     </div>

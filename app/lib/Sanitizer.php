@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /** Neteja l'HTML de l'editor visual amb una llista blanca d'etiquetes i atributs */
 final class Sanitizer
 {

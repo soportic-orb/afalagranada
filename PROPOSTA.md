@@ -20,7 +20,7 @@
 | Fes-te soci/a | `/fes-te-soci` | Com donar-se d'alta (editable, remet a l'app) |
 | Activitats | `/activitats`, `/activitats/{activitat}` | Agenda, fitxa i formulari d'inscripció |
 | Campanyes | `/campanyes`, `/campanyes/{campanya}` | Llistat, fitxa amb barra de progrés, galeria, aportacions i donació |
-| L'app | `/app` | Presentació d'Abaco, funcionalitats, App Store, Google Play i guia per començar |
+| L'app | `/aplicacio` | Presentació d'Abaco, funcionalitats, App Store, Google Play i guia per començar |
 | Notícies | `/noticies` | Actualitat de l'AFA |
 | Pàgines lliures | `/{pàgina}` | Qualsevol pàgina nova creada des del panell (p. ex. menjador, acollida, extraescolars) |
 | Entrades | `/inscripcio/{codi}`, `/entrada/{codi}` | Confirmació i entrades amb QR (no indexades) |

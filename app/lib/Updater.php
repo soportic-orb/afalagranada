@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /**
  * Actualitzacions OTA des de GitHub.
  * Descarrega la branca configurada (per defecte "main"), fa còpia de seguretat del codi actual,

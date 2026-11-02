@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <div class="checkin">
     <div class="panel">
         <div class="field">

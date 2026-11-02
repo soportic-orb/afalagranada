@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $suggested = array_values(array_filter(array_map(fn($v) => to_cents(trim($v)), explode(',', (string)($c['suggested_amounts'] ?: '10,20,50,100'))), fn($v) => $v > 0));
 $selected = old('amount', (string)($suggested[1] ?? $suggested[0] ?? 2000));

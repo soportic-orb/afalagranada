@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /**
  * Gestor genèric de llistats i formularis del panell d'administració.
  * Cada recurs es defineix a app/admin_resources.php.

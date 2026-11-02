@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero small center">
     <div class="container narrow">
         <?php if (in_array($reg['status'], ['paid', 'free'], true)): ?>

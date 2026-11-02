@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <section class="page-hero small">
     <div class="container">
         <p class="eyebrow">Micromecenatge</p>

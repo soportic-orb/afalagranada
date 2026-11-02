@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /** Contingut inicial (editable des del panell) */
 return function (Database $db) {
     $settings = [
@@ -70,7 +72,7 @@ return function (Database $db) {
 
     $pages = [
         ['que-es-afa', 'L\'AFA', 'Qui som, com ens organitzem i com pots participar.', '<h2>Qui som</h2><p>L\'AFA de l\'Escola Jacint Verdaguer és una associació formada per les famílies de l\'alumnat. Ens organitzem en una <strong>Junta</strong> escollida en assemblea i en <strong>comissions</strong> de treball obertes a totes les famílies.</p><h2>Comissions</h2><ul><li><strong>Extraescolars</strong>: oferta i coordinació d\'activitats.</li><li><strong>Menjador i acollida</strong>: seguiment dels serveis.</li><li><strong>Festes i cultura</strong>: celebracions i activitats per als infants.</li><li><strong>Llibres i material</strong>: compra conjunta i socialització.</li><li><strong>Comunicació</strong>: web, xarxes i app.</li></ul><h2>Com participar</h2><p>Totes les famílies sòcies poden participar a les assemblees i sumar-se a qualsevol comissió. Escriu-nos!</p>', 1, 10],
-        ['fes-te-soci', 'Fes-te soci/a', 'Uneix-te a l\'AFA i fes créixer l\'escola.', '<p>Fer-se soci/a de l\'AFA és molt fàcil: descarrega l\'app <strong>Abaco</strong>, registra\'t i dona d\'alta la teva família. La quota és anual i per família.</p><p><a href="/app">Descobreix com funciona l\'app →</a></p>', 1, 20],
+        ['fes-te-soci', 'Fes-te soci/a', 'Uneix-te a l\'AFA i fes créixer l\'escola.', '<p>Fer-se soci/a de l\'AFA és molt fàcil: descarrega l\'app <strong>Abaco</strong>, registra\'t i dona d\'alta la teva família. La quota és anual i per família.</p><p><a href="/aplicacio">Descobreix com funciona l\'app →</a></p>', 1, 20],
         ['privacitat', 'Política de privacitat', '', '<p>Responsable del tractament: AFA Escola Jacint Verdaguer de La Granada.</p><p>Finalitat: gestionar les donacions a campanyes i les inscripcions a activitats, i enviar-ne les confirmacions i entrades. Els pagaments es processen a través de Stripe; l\'AFA no emmagatzema dades de targetes.</p><p>Legitimació: consentiment de la persona interessada i execució de la inscripció o donació.</p><p>Conservació: durant el temps necessari per a la gestió i les obligacions legals.</p><p>Drets: pots exercir els drets d\'accés, rectificació, supressió, oposició, limitació i portabilitat escrivint al correu de contacte de l\'AFA.</p>', 0, 90],
     ];
     foreach ($pages as [$slug, $title, $exc, $content, $menu, $order]) {

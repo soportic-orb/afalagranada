@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <h2 style="margin:0 0 12px;color:#078838;">Inscripció confirmada!</h2>
 <p>Hola <?= e($reg['name']) ?>, aquí tens les entrades per a <strong><?= e($reg['activity_title']) ?></strong>.</p>
 <table role="presentation" cellpadding="6" cellspacing="0" style="background:#f4f5f5;border-radius:10px;margin:12px 0;width:100%;">

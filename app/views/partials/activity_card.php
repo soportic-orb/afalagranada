@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <article class="card activity-card">
     <a href="<?= url('activitats/' . $a['slug']) ?>" class="card-media">
         <?php if ($a['image']): ?><img src="<?= e(upload_url($a['image'])) ?>" alt="" loading="lazy"><?php else: ?><div class="media-placeholder alt"><?= icon('calendar', 'icon icon-xl') ?></div><?php endif; ?>

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 /**
  * Executa les migracions pendents de app/migrations (fitxers .sql o .php),
  * en ordre alfabètic. Cada migració s'executa una sola vegada.

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+defined('BASE_PATH') || exit;
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 final class Mailer

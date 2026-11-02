@@ -1,10 +1,15 @@
 <?php
 declare(strict_types=1);
 
+// Només es pot carregar des dels punts d'entrada (index.php, install/) o des de la línia d'ordres
+if (PHP_SAPI !== 'cli' && !defined('AFA_ENTRY')) {
+    http_response_code(404);
+    exit;
+}
+
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('UPLOAD_PATH', BASE_PATH . '/uploads');
-define('STORAGE_PATH', BASE_PATH . '/storage');
 define('CONFIG_FILE', BASE_PATH . '/config.php');
 
 mb_internal_encoding('UTF-8');
@@ -25,6 +30,45 @@ require APP_PATH . '/lib/Updater.php';
 require APP_PATH . '/lib/Crud.php';
 
 $GLOBALS['config'] = is_file(CONFIG_FILE) ? require CONFIG_FILE : null;
+
+/**
+ * Carpeta privada de dades (logs, còpies de seguretat, temporals).
+ * Molts servidors (nginx, Plesk) serveixen els fitxers estàtics sense llegir .htaccess,
+ * per això, si no es configura una ruta fora de l'arrel web ('storage_path'),
+ * s'utilitza una subcarpeta de storage/ amb un nom impossible d'endevinar.
+ */
+function afa_storage_path(?array $cfg): string
+{
+    $custom = $cfg['storage_path'] ?? '';
+    if ($custom !== '' && (is_dir($custom) || @mkdir($custom, 0755, true)) && is_writable($custom)) {
+        return rtrim($custom, '/');
+    }
+    $key = (string)($cfg['app']['key'] ?? '');
+    if ($key === '') {
+        return BASE_PATH . '/storage';
+    }
+    return BASE_PATH . '/storage/data-' . substr(hash('sha256', 'afa-storage|' . $key), 0, 32);
+}
+
+define('STORAGE_PATH', afa_storage_path($GLOBALS['config']));
+
+if (!is_dir(STORAGE_PATH . '/logs')) {
+    @mkdir(STORAGE_PATH, 0755, true);
+    // Trasllada les dades de la ubicació antiga (storage/) a la nova
+    $legacy = BASE_PATH . '/storage';
+    if (STORAGE_PATH !== $legacy) {
+        foreach (['logs', 'tmp', 'backups', 'installed.lock', 'maintenance.flag'] as $item) {
+            if (file_exists($legacy . '/' . $item) && !file_exists(STORAGE_PATH . '/' . $item)) {
+                @rename($legacy . '/' . $item, STORAGE_PATH . '/' . $item);
+            }
+        }
+    }
+    foreach (['logs', 'tmp', 'backups'] as $dir) {
+        @mkdir(STORAGE_PATH . '/' . $dir, 0755, true);
+    }
+    @file_put_contents(STORAGE_PATH . '/.htaccess', "Require all denied\nDeny from all\n");
+    @file_put_contents(STORAGE_PATH . '/index.html', '');
+}
 
 $debug = (bool)(config('debug') ?? false);
 error_reporting(E_ALL);

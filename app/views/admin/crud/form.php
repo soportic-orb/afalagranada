@@ -1,3 +1,4 @@
+<?php defined('BASE_PATH') || exit; ?>
 <?php
 $main = array_filter($res['fields'], fn($f) => empty($f['side']));
 $side = array_filter($res['fields'], fn($f) => !empty($f['side']));

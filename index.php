@@ -16,6 +16,7 @@ if (!is_file(__DIR__ . '/config.php')) {
     exit;
 }
 
+define('AFA_ENTRY', true);
 require __DIR__ . '/app/bootstrap.php';
 
 $path = current_path();
