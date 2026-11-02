@@ -173,6 +173,46 @@ return [
         ],
     ],
 
+    'products' => [
+        'table' => 'products',
+        'title' => 'Productes',
+        'singular' => 'producte',
+        'area' => 'shop',
+        'order' => 'sort_order, name',
+        'view_url' => fn($r) => url('botiga/producte/' . $r['slug']),
+        'columns' => [
+            ['name' => 'image', 'label' => '', 'type' => 'image'],
+            ['name' => 'name', 'label' => 'Producte'],
+            ['name' => 'price_cents', 'label' => 'Preu', 'type' => 'money'],
+            ['name' => 'stock', 'label' => 'Estoc', 'render' => function ($r) {
+                $s = Shop::productStock($r);
+                $n = count(Shop::variants((int)$r['id'], false));
+                $txt = $s === null ? 'Il·limitat' : (string)$s;
+                $cls = $s === 0 ? 'badge-bad' : ($s !== null && $s <= 5 ? 'badge-warn' : 'badge-muted');
+                return '<span class="badge ' . $cls . '">' . e($txt) . '</span>' . ($n ? ' <small class="muted">' . $n . ' opcions</small>' : '');
+            }],
+            ['name' => 'sold', 'label' => 'Venuts', 'render' => fn($r) => (string)(int)db()->value("SELECT COALESCE(SUM(i.quantity),0) FROM order_items i JOIN orders o ON o.id = i.order_id WHERE i.product_id = ? AND o.payment_status IN ('paid','partially_refunded')", [$r['id']])],
+            ['name' => 'status', 'label' => 'Estat', 'type' => 'select', 'options' => ['draft' => 'Esborrany', 'active' => 'A la venda', 'hidden' => 'Ocult']],
+        ],
+        'row_actions' => [
+            ['label' => 'Opcions i estoc', 'url' => fn($r) => url('admin/products/' . $r['id'] . '/variants')],
+        ],
+        'fields' => [
+            ['name' => 'name', 'label' => 'Nom del producte', 'required' => true, 'maxlength' => 200],
+            ['name' => 'slug', 'label' => 'URL (slug)', 'type' => 'slug', 'from' => 'name'],
+            ['name' => 'summary', 'label' => 'Descripció curta', 'type' => 'textarea'],
+            ['name' => 'description', 'label' => 'Descripció completa', 'type' => 'html'],
+            ['name' => 'image', 'label' => 'Imatge', 'type' => 'image', 'help' => 'Recomanat: imatge quadrada d\'almenys 1000×1000 px.'],
+            ['name' => 'status', 'label' => 'Estat', 'type' => 'select', 'options' => ['draft' => 'Esborrany', 'active' => 'A la venda', 'hidden' => 'Ocult (no es ven)'], 'side' => true],
+            ['name' => 'price_cents', 'label' => 'Preu (€, IVA inclòs)', 'type' => 'money', 'required' => true, 'side' => true],
+            ['name' => 'stock', 'label' => 'Estoc', 'type' => 'number', 'nullable' => true, 'side' => true, 'help' => 'Unitats disponibles. En blanc = il·limitat. Si el producte té opcions (talles...), l\'estoc es gestiona a «Opcions i estoc».'],
+            ['name' => 'max_per_order', 'label' => 'Màxim d\'unitats per comanda', 'type' => 'number', 'default' => 10, 'side' => true],
+            ['name' => 'variant_label', 'label' => 'Nom de les opcions', 'side' => true, 'help' => 'P. ex. «Talla» o «Color». Les opcions es creen a «Opcions i estoc».'],
+            ['name' => 'featured', 'label' => 'Destacat (primer a la botiga)', 'type' => 'checkbox', 'side' => true],
+            ['name' => 'sort_order', 'label' => 'Ordre', 'type' => 'number', 'default' => 10, 'side' => true],
+        ],
+    ],
+
     'users' => [
         'table' => 'users',
         'title' => 'Usuaris',

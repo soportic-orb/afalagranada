@@ -87,6 +87,56 @@ Els serveis de l'AFA (extraescolars, acollida, menjador, llibres i material, act
 - Disseny propi, adaptat al mòbil, accessible (contrastos, navegació per teclat) i amb bones pràctiques de SEO (metadades i Open Graph per compartir campanyes a WhatsApp i xarxes).
 - RGPD: dades mínimes, consentiment a les inscripcions, política de privacitat editable i sense galetes de seguiment per defecte.
 
+## 6 bis. Botiga en línia
+
+Botiga senzilla per vendre productes de l'AFA (samarretes, bosses, llibretes...), amb pagament amb Stripe.
+
+### Per a les famílies
+- **Catàleg** a `/botiga` i fitxa de cada producte, amb imatge, preu, descripció i disponibilitat («Últimes unitats», «Esgotat»).
+- **Opcions per producte** (talles, colors...), cadascuna amb el seu propi estoc.
+- **Cistella**, visible només dins les pàgines de la botiga:
+  - comptador d'unitats a la barra de la botiga;
+  - es poden canviar les quantitats o treure productes;
+  - les quantitats s'ajusten soles a l'estoc disponible i al màxim per comanda.
+- **Finalitzar la comanda:**
+  - dades de contacte i tria del lliurament: recollida a l'escola (gratuïta) o enviament a domicili, amb cost configurable i enviament gratuït a partir d'un import;
+  - pagament segur a la pàgina de Stripe, amb targeta, Apple Pay o Google Pay.
+- **Seguiment de la comanda** a través d'un enllaç privat que arriba per correu:
+  - estat amb una barra de progrés (Rebuda → En preparació → Enviada/lliurada);
+  - número i enllaç de seguiment de l'enviament, productes, imports retornats i historial.
+- **«Seguir la meva comanda»** (`/botiga/seguiment`):
+  - el client escriu el seu correu i rep un enllaç a cadascuna de les seves comandes;
+  - la resposta és sempre la mateixa, per no revelar quins correus han comprat;
+  - hi ha un límit de peticions per evitar abusos.
+- **Cancel·lació pel client** mentre la comanda està en estat «Rebuda»: es retorna l'import íntegre automàticament. Es pot desactivar.
+
+### Per a la Junta (panell d'administració)
+- **Productes i estoc:**
+  - nom, descripció, imatge, preu, estoc (o il·limitat), màxim d'unitats per comanda, estat (esborrany, a la venda, ocult) i ordre;
+  - opcions amb el seu estoc i unitats venudes.
+- **Comandes:**
+  - llistat amb filtres per estat i cerca per número, nom o correu;
+  - indicadors de vendes netes i de comandes per preparar, i exportació a CSV per producte (útil per preparar els lliuraments);
+  - comptador al menú i avís al tauler quan hi ha comandes noves.
+- **Estat de la comanda:** Rebuda, En preparació, Enviada/lliurada, Cancel·lada i Devolució.
+  - En canviar-lo es pot afegir un missatge, un número i un enllaç de seguiment.
+  - El client rep un avís per correu (opcional).
+- **Devolucions directament des del panell:**
+  - totals o parcials, amb motiu;
+  - es fan a la targeta del client a través de l'API de Stripe, sense haver d'entrar a Stripe;
+  - opcionalment, les unitats tornen a l'estoc;
+  - les devolucions fetes des del tauler de Stripe també es registren automàticament.
+- **Historial de cada comanda,** amb notes internes, enllaç al pagament a Stripe i reenviament de la confirmació.
+
+### Funcionament de l'estoc
+- **Reserva:** en confirmar la comanda, l'estoc es reserva mentre el client paga.
+- **Pagament no completat:** si al cap de 70 minuts el pagament no s'ha fet, la comanda caduca i les unitats tornen a estar disponibles.
+- **Garantia:** no es pot vendre més del que hi ha, encara que dues persones comprin alhora.
+
+### Correus
+- **Client:** confirmació de la comanda, canvis d'estat, devolucions i enllaços de seguiment.
+- **Junta:** avís de comanda nova, amb un botó per gestionar-la.
+
 ## 7. Identitat visual
 
 El disseny parteix del **logotip de l'AFA**: la magrana de La Granada i tres figures que representen la comunitat educativa.
@@ -114,6 +164,8 @@ El disseny parteix del **logotip de l'AFA**: la magrana de La Granada i tres fig
 - [x] Pàgina de l'app Abaco
 - [x] Panell amb rols, exportacions CSV i registre d'activitat
 - [x] Instal·lador i actualitzacions OTA amb còpies de seguretat
+- [x] Formulari de contacte amb bústia al panell
+- [x] Botiga en línia amb cistella, estoc, seguiment de comandes i devolucions des del panell
 
 ## 9. Propers passos proposats
 

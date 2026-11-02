@@ -32,6 +32,8 @@ if (Updater::inMaintenance() && !str_starts_with($path, '/admin')) {
 $router = new Router();
 require APP_PATH . '/routes/front.php';
 require APP_PATH . '/routes/admin.php';
+require APP_PATH . '/routes/shop.php';
+require APP_PATH . '/routes/shop_admin.php';
 // Pàgines del CMS (ha d'anar al final)
 $router->get('/{slug}', 'front_page');
 

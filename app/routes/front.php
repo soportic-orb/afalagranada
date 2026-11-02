@@ -387,6 +387,7 @@ $router->post('/stripe/webhook', function () {
             if (!empty($obj['payment_intent'])) {
                 db()->run("UPDATE donations SET status = 'refunded' WHERE stripe_payment_intent = ?", [$obj['payment_intent']]);
                 db()->run("UPDATE registrations SET status = 'refunded' WHERE stripe_payment_intent = ?", [$obj['payment_intent']]);
+                Shop::syncRefundFromCharge($obj);
             }
             break;
     }

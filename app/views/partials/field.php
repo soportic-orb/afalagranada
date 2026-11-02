@@ -33,7 +33,7 @@ if ($type === 'heading'): ?>
                 <?php endforeach; ?>
             </div>
         <?php break; case 'money': ?>
-            <div class="input-suffix"><input type="text" inputmode="decimal" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e($value === null ? '' : cents_to_input((int)$value)) ?>" <?= $req ?>><span>€</span></div>
+            <div class="input-suffix"><input type="text" inputmode="decimal" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e(($value === null || $value === '') ? '' : cents_to_input((int)$value)) ?>" <?= $req ?>><span>€</span></div>
         <?php break; case 'number': ?>
             <input type="number" id="<?= e($id) ?>" name="<?= e($name) ?>" value="<?= e($value) ?>" <?= $req ?>>
         <?php break; case 'date': ?>

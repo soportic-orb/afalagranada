@@ -28,6 +28,7 @@ require APP_PATH . '/lib/Uploader.php';
 require APP_PATH . '/lib/Sanitizer.php';
 require APP_PATH . '/lib/Updater.php';
 require APP_PATH . '/lib/Crud.php';
+require APP_PATH . '/lib/Shop.php';
 
 $GLOBALS['config'] = is_file(CONFIG_FILE) ? require CONFIG_FILE : null;
 
